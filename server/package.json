@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "lint": "eslint --fix './**/*.js'",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -12,11 +15,22 @@
   "dependencies": {
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.2",
+    "eslint-config-prettier": "^8.5.0",
     "express": "^4.18.1",
     "morgan": "^1.10.0",
-    "pg": "^8.8.0"
+    "pg": "^8.8.0",
+    "prettier": "^2.7.1",
+    "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "eslint": "^8.23.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "nodemon": "^2.0.19"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }
