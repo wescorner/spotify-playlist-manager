@@ -86,7 +86,6 @@ app.get('/playlists', async (req, res) => {
   const userPlaylists = []
   await spotifyApi.getUserPlaylists({ limit: 50 })
     .then(data => {
-      console.log(data.body.items)
       data.body.items.forEach(p => { //p represents playlist item
         userPlaylists.push({ [p.name]: { id: p.id, description: p.description, image: p.images[0].url, owner: p.owner.display_name, tracks: { count: p.tracks.total, href: p.tracks.href } } })
       })
