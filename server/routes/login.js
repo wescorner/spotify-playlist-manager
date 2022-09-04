@@ -2,8 +2,8 @@
 const express = require('express')
 const router = express.Router();
 const querystring = require('querystring')
-const SpotifyWebApi = require('spotify-web-api-node')
 require("dotenv").config()
+const SpotifyWebApi = require('spotify-web-api-node')
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
