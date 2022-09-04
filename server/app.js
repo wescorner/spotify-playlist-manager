@@ -99,4 +99,14 @@ app.get('/playlists', async (req, res) => {
     })
 })
 
+// app.post('/playlists', async (req, res) => {
+//   spotifyApi.addTracksToPlaylist(//Playlist ID, [TrackID])
+//   .then(data => {
+//     res.status(200).send("Songs successfully added to playlist")
+//   })
+//       .catch(error => {
+//         console.log("Error occured", error)
+//       })
+// })
+
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
