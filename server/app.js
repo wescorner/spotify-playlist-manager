@@ -5,43 +5,15 @@ const SpotifyWebApi = require('spotify-web-api-node')
 const {storePlaylists} = require('./db/helper/playlists')
 const util = require('util')
 const PORT = 8080
-
+const pool = require('./configs/db.config')
 const app = express()
 
-const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: process.env.REDIRECT_URI
-})
-
-//Spotify credential verification, ensures user has auth token and is logged in
-app.get('/login', (req, res) => {
-
-  const scope = 'user-read-private user-read-email ugc-image-upload streaming user-follow-modify user-read-recently-played user-read-playback-position user-top-read playlist-modify-public user-library-modify user-follow-read user-read-currently-playing user-library-read playlist-read-private user-read-private playlist-modify-private';
-
-  res.redirect('https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id: process.env.CLIENT_ID,
-      scope: scope,
-      redirect_uri: process.env.REDIRECT_URI,
-    }));
-})
-
-//Sets access token and refresh token after verification of spotify credentials
-app.get('/callback', async (req, res) => {
-  const { code } = req.query;
-  try {
-    const data = await spotifyApi.authorizationCodeGrant(code)
-    const { access_token, refresh_token } = data.body
-    spotifyApi.setAccessToken(access_token);
-    spotifyApi.setRefreshToken(refresh_token);
-
-    res.redirect('http://localhost:3000/dashboard')
-  } catch (err) {
-    res.redirect('/#/error/invalid token')
-  }
-})
+//Separated Routes for each Resource
+const categoryRoutes = require("./routes/category");
+const indexRoutes = require("./routes/index");
+const playlistRoutes = require("./routes/playlist");
+const loginRoutes = require("./routes/login");
+const dashboardRoutes = require("./routes/dashboard");
 
 //Interacts with API to grab profile image and name
 app.get('/profile', async (req, res) => {
@@ -63,6 +35,14 @@ app.get('/profile', async (req, res) => {
       res.sendStatus(500)
     })
 })
+
+// Mount all resource routes
+app.use("/category", categoryRoutes(pool));
+app.use("/index", indexRoutes(pool));
+app.use("/playlist", playlistRoutes(pool));
+app.use("/login", loginRoutes(pool));
+app.use("/dashboard", dashboardRoutes(pool));
+
 
 //Interacts with API in order to grab users top tracks up to 50
 app.get('/dashboard', async (req, res) => {
