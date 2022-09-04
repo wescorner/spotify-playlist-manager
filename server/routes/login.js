@@ -3,7 +3,8 @@ const express = require('express')
 const router = express.Router();
 const querystring = require('querystring')
 require("dotenv").config()
-const SpotifyWebApi = require('spotify-web-api-node')
+const SpotifyWebApi = require('spotify-web-api-node');
+const { collapseTextChangeRangesAcrossMultipleVersions } = require('typescript');
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
@@ -11,7 +12,7 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.REDIRECT_URI
 })
 
-module.exports = (db) => {
+module.exports = (pool) => {
   //Spotify credential verification, ensures user has auth token and is logged in
   router.get('/', (req, res) => {
 
@@ -37,9 +38,16 @@ module.exports = (db) => {
 
       spotifyApi.getMe()
         .then(data => {
-          console.log(data)
+          const profileInfo = [];
+          profileInfo.push(data.body.images[0].url, data.body.display_name, data.body.email.toLowerCase())
+          return pool.query(`SELECT email FROM USERS`)
+            .then(data => {
+              const userExists = data.rows.find(user => user.email === profileInfo[2])
+              if (userExists === undefined) {
+                return pool.query(`INSERT INTO users (image, name, email) VALUES ($1, $2, $3)`, profileInfo)
+              }
+            })
         })
-
       res.redirect('http://localhost:3000/index')
     } catch (err) {
       res.redirect('/#/error/invalid token')
