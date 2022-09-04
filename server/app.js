@@ -68,7 +68,7 @@ app.get('/dashboard', async (req, res) => {
   await spotifyApi.getMyTopTracks({ limit: 50 })
     .then(data => {
       data.body.items.forEach(song => {
-        topTracks.push({ [song.name]: { id: song.id, image: song.album.images[1].url } })
+        topTracks.push({ name: song.name, id: song.id, image: song.album.images[1].url })
       })
       res.json(topTracks)
     })
@@ -87,7 +87,7 @@ app.get('/playlists', async (req, res) => {
   await spotifyApi.getUserPlaylists({ limit: 50 })
     .then(data => {
       data.body.items.forEach(p => { //p represents playlist item
-        userPlaylists.push({ [p.name]: { id: p.id, description: p.description, image: p.images[0].url, owner: p.owner.display_name, tracks: { count: p.tracks.total, href: p.tracks.href } } })
+        userPlaylists.push({ name: p.name, id: p.id, description: p.description, image: p.images[0].url, owner: p.owner.display_name, tracks: { count: p.tracks.total, href: p.tracks.href } })
       })
       res.json(userPlaylists)
     })
