@@ -1,4 +1,5 @@
 // route to login page
+const { profile } = require('console');
 const express = require('express')
 const router = express.Router();
 const querystring = require('querystring')
@@ -27,7 +28,7 @@ module.exports = (pool) => {
       }));
   })
 
-  //Sets access token and refresh token after verification of spotify credentials
+  //Sets access token and refresh token after verification of spotify credentials 
   router.get('/callback', async (req, res) => {
     const { code } = req.query;
     try {
@@ -36,21 +37,22 @@ module.exports = (pool) => {
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
 
+      //Inserts user details into database if they don't already exist
       spotifyApi.getMe()
         .then(data => {
           const profileInfo = [];
-          profileInfo.push(data.body.images[0].url, data.body.display_name, data.body.email.toLowerCase())
-          return pool.query(`SELECT email FROM USERS`)
+          profileInfo.push(data.body.id, data.body.images[0].url, data.body.display_name, data.body.email.toLowerCase())
+          return pool.query(`SELECT id FROM USERS`)
             .then(data => {
-              const userExists = data.rows.find(user => user.email === profileInfo[2])
+              const userExists = data.rows.find(user => user.id === profileInfo[0])
               if (userExists === undefined) {
-                return pool.query(`INSERT INTO users (image, name, email) VALUES ($1, $2, $3)`, profileInfo)
+                return pool.query(`INSERT INTO users (id, image, name, email) VALUES ($1, $2, $3, $4)`, profileInfo)
               }
             })
         })
       res.redirect('http://localhost:3000/index')
     } catch (err) {
-      res.redirect('/#/error/invalid token')
+      res.send('Invalid or expired token, please login again')
     }
   })
 
