@@ -1,9 +1,11 @@
 // route to login page
+const { profile } = require('console');
 const express = require('express')
 const router = express.Router();
 const querystring = require('querystring')
 require("dotenv").config()
-const SpotifyWebApi = require('spotify-web-api-node')
+const SpotifyWebApi = require('spotify-web-api-node');
+const { collapseTextChangeRangesAcrossMultipleVersions } = require('typescript');
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
@@ -11,7 +13,7 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.REDIRECT_URI
 })
 
-module.exports = (db) => {
+module.exports = (pool) => {
   //Spotify credential verification, ensures user has auth token and is logged in
   router.get('/', (req, res) => {
 
@@ -26,7 +28,7 @@ module.exports = (db) => {
       }));
   })
 
-  //Sets access token and refresh token after verification of spotify credentials
+  //Sets access token and refresh token after verification of spotify credentials 
   router.get('/callback', async (req, res) => {
     const { code } = req.query;
     try {
@@ -35,14 +37,22 @@ module.exports = (db) => {
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
 
+      //Inserts user details into database if they don't already exist
       spotifyApi.getMe()
         .then(data => {
-          console.log(data)
+          const profileInfo = [];
+          profileInfo.push(data.body.id, data.body.images[0].url, data.body.display_name, data.body.email.toLowerCase())
+          return pool.query(`SELECT id FROM USERS`)
+            .then(data => {
+              const userExists = data.rows.find(user => user.id === profileInfo[0])
+              if (userExists === undefined) {
+                return pool.query(`INSERT INTO users (id, image, name, email) VALUES ($1, $2, $3, $4)`, profileInfo)
+              }
+            })
         })
-
       res.redirect('http://localhost:3000/index')
     } catch (err) {
-      res.redirect('/#/error/invalid token')
+      res.send('Invalid or expired token, please login again')
     }
   })
 

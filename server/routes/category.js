@@ -12,7 +12,11 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.REDIRECT_URI
 })
 
-module.exports = (db) => {
+module.exports = (pool) => {
+
+  // router.post("/", (req, res) => {
+  //   return pool.query(`INSERT INTO categories (name, image, user_id) VALUES ($1, $2, $3)`, profileInfo)
+  // })
 
   return router
 };
