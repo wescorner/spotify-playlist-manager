@@ -2,6 +2,7 @@ const express = require('express')
 require("dotenv").config()
 const querystring = require('querystring')
 const SpotifyWebApi = require('spotify-web-api-node')
+const {storePlaylists} = require('./db/helper/playlists')
 const util = require('util')
 const PORT = 8080
 
@@ -50,7 +51,9 @@ app.get('/profile', async (req, res) => {
     .then(data => {
       profileInformation.image = data.body.images[0].url
       profileInformation.display_name = data.body.display_name
+      console.log(profileInformation)
       return res.json(profileInformation)
+      
     })
     .catch(err => {
       console.log(err)
@@ -90,6 +93,8 @@ app.get('/playlists', async (req, res) => {
         userPlaylists.push({ name: p.name, id: p.id, description: p.description, image: p.images[0].url, owner: p.owner.display_name, tracks: { count: p.tracks.total, href: p.tracks.href } })
       })
       res.json(userPlaylists)
+      console.log(userPlaylists)
+      storePlaylists(userPlaylists) 
     })
     .catch(err => {
       console.log(err)
