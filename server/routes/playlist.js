@@ -5,37 +5,35 @@ const express = require('express');
 const router = express.Router();
 const { spotifyApi } = require('../app')
 require("dotenv").config()
+const {getPlaylistFromId} = require('../db/helper/playlists')
 
 module.exports = (pool) => {
 
-  router.get('/', async (req, res) => {
-    const userPlaylists = []
-    await spotifyApi.getUserPlaylists({ limit: 50 })
-      .then(data => {
-        data.body.items.forEach(p => { //p represents playlist item
-          userPlaylists.push({ name: p.name, id: p.id, description: p.description, image: p.images[0].url, owner: p.owner.display_name, tracks: { count: p.tracks.total, href: p.tracks.href } })
-        })
-        res.json(userPlaylists)
-      })
-      .catch(err => {
-        console.log(err)
-        if (err.body.error.message === "No token provided") {
-          return res.redirect('/login')
-        }
-      })
+  // receives palylist_id in req
+  // grabs the info for the playlist id from db and sends it as response
+  router.get("/:id", (req, res) => {
+    const playlistId = 1;
+    getPlaylistFromId(playlistId)
+    .then((data) => {
+      res.send(data)
+    })
   })
 
-  //Interacts with API in order to grab users playlist information
+  // Its a post route to add songs to an existing playlist
+  // It receives playlist_id and track id in the body of the request
+  router.post('/:id', async (req, res) => {
+    const playlistId = req.body.playlistId
+    const trackId = req.body.trackId
 
-  // router.post('/', async (req, res) => {
-  //   spotifyApi.addTracksToPlaylist(//Playlist ID, [TrackID])
-  //   .then(data => {
-  //     res.status(200).send("Songs successfully added to playlist")
-  //   })
-  //       .catch(error => {
-  //         console.log("Error occured", error)
-  //       })
-  // })
+    spotifyApi.addTracksToPlaylist(playlistId, trackId)
+    .then(() => {
+      
+      
+    })
+    .catch(error => {
+      console.log("Error occured", error)
+    })
+  })
 
   return router
 };
