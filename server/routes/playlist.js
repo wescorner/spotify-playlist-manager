@@ -3,18 +3,11 @@
 
 const express = require('express');
 const router = express.Router();
-const SpotifyWebApi = require('spotify-web-api-node')
+const { spotifyApi } = require('../app')
 require("dotenv").config()
 
-const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: process.env.REDIRECT_URI
-})
+module.exports = (pool) => {
 
-module.exports = (db) => {
-
-  //Interacts with API in order to grab users playlist information
   router.get('/', async (req, res) => {
     const userPlaylists = []
     await spotifyApi.getUserPlaylists({ limit: 50 })
@@ -31,6 +24,8 @@ module.exports = (db) => {
         }
       })
   })
+
+  //Interacts with API in order to grab users playlist information
 
   // router.post('/', async (req, res) => {
   //   spotifyApi.addTracksToPlaylist(//Playlist ID, [TrackID])

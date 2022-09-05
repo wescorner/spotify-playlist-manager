@@ -8,6 +8,14 @@ const PORT = 8080
 const pool = require('./configs/db.config')
 const app = express()
 
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  redirectUri: process.env.REDIRECT_URI
+})
+
+module.exports.spotifyApi = spotifyApi
+
 //Separated Routes for each Resource
 const categoryRoutes = require("./routes/category");
 const indexRoutes = require("./routes/index");

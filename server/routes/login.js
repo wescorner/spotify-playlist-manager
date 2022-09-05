@@ -4,14 +4,9 @@ const express = require('express')
 const router = express.Router();
 const querystring = require('querystring')
 require("dotenv").config()
-const SpotifyWebApi = require('spotify-web-api-node');
+const { spotifyApi } = require('../app')
 const { collapseTextChangeRangesAcrossMultipleVersions } = require('typescript');
-
-const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: process.env.REDIRECT_URI
-})
+const { storePlaylists } = require('../db/helper/playlists')
 
 module.exports = (pool) => {
   //Spotify credential verification, ensures user has auth token and is logged in
@@ -41,38 +36,29 @@ module.exports = (pool) => {
       spotifyApi.getMe()
         .then(data => {
           const profileInfo = [];
-          profileInfo.push(data.body.id, data.body.images[0].url, data.body.display_name, data.body.email.toLowerCase())
+          profileInfo.push(data.body.images[0].url, data.body.display_name, data.body.email.toLowerCase())
           return pool.query(`SELECT id FROM USERS`)
             .then(data => {
               const userExists = data.rows.find(user => user.id === profileInfo[0])
               if (userExists === undefined) {
-                return pool.query(`INSERT INTO users (id, image, name, email) VALUES ($1, $2, $3, $4)`, profileInfo)
+                return pool.query(`INSERT INTO users (image, name, email) VALUES ($1, $2, $3)`, profileInfo)
               }
+            })
+        })
+        .then(() => {
+          const userPlaylists = []
+          spotifyApi.getUserPlaylists({ limit: 50 })
+            .then(data => {
+              data.body.items.forEach(p => { //p represents playlist item
+                userPlaylists.push({ name: p.name, id: p.id, description: p.description, image: p.images[0].url, owner: p.owner.display_name, tracks: { count: p.tracks.total, href: p.tracks.href } })
+              })
+              storePlaylists(userPlaylists)
             })
         })
       res.redirect('http://localhost:3000/index')
     } catch (err) {
       res.send('Invalid or expired token, please login again')
     }
-  })
-
-  //Interacts with API to grab profile image and name
-  router.get('/profile', async (req, res) => {
-
-    const profileInformation = {}
-    await spotifyApi.getMe()
-      .then(data => {
-        profileInformation.image = data.body.images[0].url
-        profileInformation.display_name = data.body.display_name
-        return res.json(profileInformation)
-      })
-      .catch(err => {
-        console.log(err)
-        if (err.body.error.message === 'No token provided') {
-          return res.redirect('/login')
-        }
-        res.sendStatus(500)
-      })
   })
 
   return router
