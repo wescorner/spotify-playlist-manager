@@ -51,9 +51,9 @@ const getPlaylistFromId = (playlistId) => {
     SELECT * FROM playlists WHERE id = $1`,
     [playlistId]
   )
-  .then((data) => {
-    return data.rows[0]
-  })
+    .then((data) => {
+      return data.rows[0]
+    })
 }
 
-module.exports = {storePlaylists, getPlaylistFromId}
+module.exports = { storePlaylists, getPlaylistFromId }
