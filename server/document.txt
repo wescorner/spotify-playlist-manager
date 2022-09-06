@@ -1,0 +1,42 @@
+Required => 
+get requests
+  1. user logs in successfully
+  2. get the user specific data (user info and all playlists) and store it in db.
+  3. when user logs in send the category, playlist, and user data to client.
+  4. when user clicks on a category, send the data mathcing that category id to client.
+  5. when user clicks on a plylist, sent that playlist data to client
+  6. when user clicks on a palylist dashboard, send the fresh stat
+post requests
+  1. when user create a category, add the category to db
+  2. when user creats a playlist
+      . make a post call to spotify api
+      . add that playlist to playlists table in db
+      . add new entry to categories_playlists table
+  3. when user adds a song to a playlist
+      . add the song to spotify playlist
+      . increase the count of tracks by one in that playlist in db
+      . send the updated playlist to client
+delete requests
+  1. when user deletes a playlist
+      . delete req to spotify api
+      . delete playlist from db
+      . send updated playlists info to client
+  2. when user deletes a category
+      . delete the category from db
+      . send updated categories_playlists
+  3. when user deletes a song from a playlist
+      . delete the song from spotify api
+      . decrement the number of tracks from that playlist
+
+
+
+
+
+
+completed..
+1. when user logs in server fetches data from api and populates users and playlists table.
+2. Server can get single playlist detail from db using playlist.id and sends the data.
+3. when user deletes a category . delete the category from db
+4. when user create a category, add the category to db
+
+
