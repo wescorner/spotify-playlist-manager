@@ -43,9 +43,17 @@ const storePlaylists = (playlists) => {
 
       }
       return Promise.all(allPlaylists)
-
     })
-
 }
 
-module.exports = { storePlaylists }
+const getPlaylistFromId = (playlistId) => {
+  return pool.query(`
+    SELECT * FROM playlists WHERE id = $1`,
+    [playlistId]
+  )
+    .then((data) => {
+      return data.rows[0]
+    })
+}
+
+module.exports = { storePlaylists, getPlaylistFromId }

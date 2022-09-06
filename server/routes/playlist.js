@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 const { spotifyApi } = require('../app')
 require("dotenv").config()
-const {getPlaylistFromId} = require('../db/helper/playlists')
+const { getPlaylistFromId, storePlaylists } = require('../db/helper/playlists')
 
 module.exports = (pool) => {
 
@@ -14,9 +14,9 @@ module.exports = (pool) => {
   router.get("/:id", (req, res) => {
     const playlistId = 1;
     getPlaylistFromId(playlistId)
-    .then((data) => {
-      res.send(data)
-    })
+      .then((data) => {
+        res.send(data)
+      })
   })
 
   // Its a post route to add songs to an existing playlist
@@ -26,13 +26,13 @@ module.exports = (pool) => {
     const trackId = req.body.trackId
 
     spotifyApi.addTracksToPlaylist(playlistId, trackId)
-    .then(() => {
-      
-      
-    })
-    .catch(error => {
-      console.log("Error occured", error)
-    })
+      .then(() => {
+
+
+      })
+      .catch(error => {
+        console.log("Error occured", error)
+      })
   })
 
   return router
