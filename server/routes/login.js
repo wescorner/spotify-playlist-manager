@@ -35,6 +35,7 @@ module.exports = (pool) => {
       //Inserts user details into database if they don't already exist
       spotifyApi.getMe()
         .then(data => {
+          console.log(data.body)
           const profileInfo = [];
           profileInfo.push(data.body.images[0].url, data.body.display_name, data.body.email.toLowerCase(), data.body.id)
           return pool.query(`SELECT spotify_id FROM USERS`)

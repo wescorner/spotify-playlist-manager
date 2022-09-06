@@ -8,10 +8,19 @@ require("dotenv").config()
 
 module.exports = (pool) => {
 
+  // Find out who the current user is and grab all their category data from the database
+
   router.get('/', (req, res) => {
     spotifyApi.getMe()
       .then(data => {
-        console.log(data)
+        console.log(data.body)
+        return pool.query(`SELECT id FROM users WHERE spotify_id = $1`, [data.body.id])
+          .then(data => {
+            return pool.query(`SELECT * FROM categories WHERE user_id = $1`, [data.rows[0].id])
+              .then(data => {
+                res.json(data)
+              })
+          })
       })
   })
 
@@ -26,16 +35,13 @@ module.exports = (pool) => {
       .then(data => {
         return pool.query(`SELECT id FROM users WHERE spotify_id = $1`, [data.body.id])
           .then(data => {
-            categoryInfo.push(data.rows[0])
+            categoryInfo.push(data.rows[0].id)
             return pool.query(`INSERT INTO categories (name, image, user_id) VALUES ($1, $2, $3)`, [categoryInfo])
           })
           .catch(err => {
             res.send('Invalid or expired token, please login again')
           })
       })
-
-
-    // return pool.query(`INSERT INTO categories (name, image, user_id) VALUES ($1, $2, $3)`, profileInfo)
   })
 
   return router
