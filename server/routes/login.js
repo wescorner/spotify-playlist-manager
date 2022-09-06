@@ -36,12 +36,12 @@ module.exports = (pool) => {
       spotifyApi.getMe()
         .then(data => {
           const profileInfo = [];
-          profileInfo.push(data.body.images[0].url, data.body.display_name, data.body.email.toLowerCase())
-          return pool.query(`SELECT id FROM USERS`)
+          profileInfo.push(data.body.images[0].url, data.body.display_name, data.body.email.toLowerCase(), data.body.id)
+          return pool.query(`SELECT spotify_id FROM USERS`)
             .then(data => {
-              const userExists = data.rows.find(user => user.id === profileInfo[0])
+              const userExists = data.rows.find(user => user.spotify_id === profileInfo[3])
               if (userExists === undefined) {
-                return pool.query(`INSERT INTO users (image, name, email) VALUES ($1, $2, $3)`, profileInfo)
+                return pool.query(`INSERT INTO users (image, name, email, spotify_id) VALUES ($1, $2, $3, $4)`, profileInfo)
               }
             })
         })
