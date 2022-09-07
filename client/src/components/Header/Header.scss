@@ -1,11 +1,54 @@
 .header {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  margin-top: 5%;
+  // justify-content: space-around;
+  margin: 5%;
   color: white;
 
   h1 {
     font-weight: 700;
+    flex-grow: 1;
+  }
+
+  #profileButton {
+    all: unset;
+    background-color: rgb(46, 46, 46);
+    cursor: pointer;
+    border-radius: 30px;
+    width: 160px;
+    height: 35px;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    margin-right: 5%;
+    text-align: center;
+
+    #userPhoto {
+      border-radius: 50%;
+      height: 2rem;
+      width: 2rem;
+      padding-top: 3px;
+      padding-left: 2px;
+    }
+    #username {
+      margin-top: 7px;
+      padding-left: 5px;
+      font-weight: 700;
+    }
+  }
+
+  #logoutButton {
+    all: unset;
+    background-color: #1FDF64;
+    color: black;
+    cursor: pointer;
+    font: inherit;
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    display: inline-block;
+    border-radius: 30px;
+    margin-top: 5px;
   }
 }
