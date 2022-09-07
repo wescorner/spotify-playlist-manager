@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 5%;
+  color: white;
+
+  h1 {
+    font-weight: 700;
+  }
+}

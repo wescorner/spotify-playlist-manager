@@ -1,0 +1,45 @@
+.App {
+  background-color: gray;
+  height: 100vh;
+  width: 100vw;
+  display: table;
+}
+
+.content {
+  display: table-cell;
+  width: 80%;
+  vertical-align: top;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  .card {
+    margin: 2%;
+    width: 25%;
+    height: 15%;
+  }
+}
+
+.categoriesTitle {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  margin: 5%;
+
+  .addIcon {
+    align-self: center;
+    margin-left: 3%;
+    height: 5%;
+    width: 5%;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+body {
+  margin: 0;
+}

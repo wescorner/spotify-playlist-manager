@@ -1,0 +1,41 @@
+.navbar {
+  background-color: rgb(46, 46, 46);
+  color: rgb(182, 182, 182);
+  z-index: 100;
+  display: table-cell;
+  width: 20%;
+  vertical-align: top;
+
+  hr {
+    justify-self: center;
+    width: 85%;
+    border-top: 2px solid white;
+    position: relative;
+    left: 5%;
+  }  
+}
+
+.navbarList {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .navrow {
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-around;
+    align-items: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    
+    #icon {
+      margin-right: 10%;
+    }
+
+    &:hover {
+      color: white;
+      cursor: pointer;
+    }
+
+  }
+}
