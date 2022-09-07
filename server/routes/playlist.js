@@ -5,17 +5,29 @@ const express = require('express');
 const router = express.Router();
 const { spotifyApi } = require('../app')
 require("dotenv").config()
-const { getPlaylistFromId, storePlaylists } = require('../db/helper/playlists')
+const { getPlaylistFromId, storePlaylists, convertMsToMinutesSeconds } = require('../db/helper/playlists')
 
 module.exports = (pool) => {
 
-  // receives palylist_id in req
+  // receives playlist_id in req
   // grabs the info for the playlist id from db and sends it as response
   router.get("/:id", (req, res) => {
-    const playlistId = 1;
-    getPlaylistFromId(playlistId)
-      .then((data) => {
-        res.send(data)
+    const songResult = []
+    const playlistId = req.params.id;
+    return pool.query(`
+    SELECT spotify_id FROM playlists 
+    WHERE playlists.id = $1`,
+      [playlistId]
+    )
+      .then(data => {
+        spotifyApi.getPlaylist(data.rows[0].spotify_id)
+          .then((data) => {
+            data.body.tracks.items.forEach(song => {
+              let duration = convertMsToMinutesSeconds(song.track.duration_ms)
+              songResult.push([song.track.album.images[2].url, song.track.name, song.track.album.name, song.track.album.release_date, duration])
+            })
+            res.json(songResult)
+          })
       })
   })
 

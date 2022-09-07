@@ -22,6 +22,7 @@ const storePlaylists = (playlists) => {
       const allPlaylists = []
       for (const playlist of playlists) {
         const exists = data.some((dataPlaylist) => dataPlaylist.spotify_id === playlist.id);
+        // console.log(exists, data, playlist);
         if (!exists) {
           allPlaylists.push(
             pool.query(`
@@ -43,17 +44,22 @@ const storePlaylists = (playlists) => {
 
       }
       return Promise.all(allPlaylists)
+
     })
+
 }
 
-const getPlaylistFromId = (playlistId) => {
-  return pool.query(`
-    SELECT * FROM playlists WHERE id = $1`,
-    [playlistId]
-  )
-    .then((data) => {
-      return data.rows[0]
-    })
+function padTo2Digits(num) {
+  return num.toString().padStart(2, '0');
 }
 
-module.exports = { storePlaylists, getPlaylistFromId }
+function convertMsToMinutesSeconds(milliseconds) {
+  const minutes = Math.floor(milliseconds / 60000);
+  const seconds = Math.round((milliseconds % 60000) / 1000);
+
+  return seconds === 60
+    ? `${minutes + 1}:00`
+    : `${minutes}:${padTo2Digits(seconds)}`;
+}
+
+module.exports = { storePlaylists, convertMsToMinutesSeconds }

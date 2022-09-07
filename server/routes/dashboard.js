@@ -15,7 +15,7 @@ module.exports = (pool) => {
     await spotifyApi.getMyTopTracks({ limit: 50 })
       .then(data => {
         data.body.items.forEach(song => {
-          topTracks.push({ name: song.name, id: song.id, image: song.album.images[1].url })
+          topTracks.push([song.name, song.id, song.album.images[1].url])
         })
         res.json(topTracks)
       })
