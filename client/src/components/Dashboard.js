@@ -1,6 +1,5 @@
 import React from "react";
 import "../styles/dashboard.scss";
-import { Col, Container, Row } from "react-bootstrap";
 import Navbar from "./Navbar/Navbar";
 import Header from "./Header/Header";
 import CategoryCard from "./CategoryCard/CategoryCard";

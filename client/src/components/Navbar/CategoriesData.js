@@ -1,5 +1,3 @@
-import React from "react";
-
 export const CategoriesData = [
   {
     name: "Category One",
