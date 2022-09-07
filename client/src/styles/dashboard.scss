@@ -1,0 +1,60 @@
+.App {
+  background-color: #121212;
+  height: 100vh;
+  width: 100vw;
+  display: table;
+}
+
+.content {
+  display: table-cell;
+  width: 80%;
+  vertical-align: top;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 60%;
+  .card {
+    margin: 1%;
+    width: 20%;
+    background-color: #181818;
+    color: white;
+
+    &:hover {
+      background-color: #282828;
+      cursor: pointer;
+    }
+
+    .card-title {
+      font-weight: 700;
+    }
+    .card-text {
+      color: gray;
+      font-size: 14px;
+    }
+  }
+}
+
+.categoriesTitle {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  margin: 5%;
+
+  .addIcon {
+    align-self: center;
+    margin-left: 3%;
+    height: 5%;
+    width: 5%;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+body {
+  margin: 0;
+}
