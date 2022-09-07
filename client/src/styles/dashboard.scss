@@ -14,11 +14,11 @@
 .categories {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
+  height: 60%;
   .card {
-    margin: 2%;
-    width: 25%;
-    height: 15%;
+    margin: 1%;
+    width: 20%;
   }
 }
 
