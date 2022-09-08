@@ -47,5 +47,14 @@ module.exports = (pool) => {
       })
   })
 
+  router.delete(':/id', (req, res) => {
+    const playlistId = req.params.id
+    return pool.query(`
+    DELETE FROM categories_playlists 
+    WHERE playlist_id = $1`,
+      [playlistId]
+    )
+  })
+
   return router
 };
