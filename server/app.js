@@ -4,9 +4,13 @@ const querystring = require('querystring')
 const SpotifyWebApi = require('spotify-web-api-node')
 const { storePlaylists } = require('./db/helper/playlists')
 const util = require('util')
+const bodyParser = require("body-parser")
 const PORT = 8080
 const pool = require('./configs/db.config')
 const app = express()
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
