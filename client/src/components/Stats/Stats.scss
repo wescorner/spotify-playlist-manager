@@ -1,0 +1,57 @@
+#playlistImage {
+  width: 300px;
+  height: 300px;
+  margin-bottom: 2%;
+}
+
+.statsHeader{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 4%;
+  color:white;
+  text-align: center;
+  margin-left: 5%;
+  align-items: center;
+}
+
+#graph {
+  max-width: 90%;
+  margin-top: 2%;
+  color: white;
+  margin: auto;
+}
+
+.playlistTitle{
+  margin-bottom: 10%;
+}
+
+#graphTitle{ 
+  margin-top: 5%;
+  text-align: center;
+  color: white;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+  gap: 1.5em;
+  font-size: 2em;
+  align-self: center;
+}
+
+.svg_icons {
+  transform: scale(2);
+  margin-right: 1em;
+}
+
+#buttonContainer {
+  display:flex;
+  justify-content: center;
+  margin: 2%;
+}
+
+.btn-danger{
+  font-weight: 700;
+}
