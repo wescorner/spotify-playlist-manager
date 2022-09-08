@@ -37,13 +37,13 @@ module.exports = (pool) => {
       //Inserts user details into database if they don't already exist
       spotifyApi
         .getMe()
-        .then((data) => {
+        .then(({body: {images, display_name, email, id}}) => {
           const profileInfo = [];
           profileInfo.push(
-            data.body.images[0].url,
-            data.body.display_name,
-            data.body.email.toLowerCase(),
-            data.body.id
+            images[0].url,
+            display_name,
+            email.toLowerCase(),
+            id
           );
           return pool.query(`SELECT spotify_id FROM USERS`).then((data) => {
             const userExists = data.rows.find((user) => user.spotify_id === profileInfo[3]);
@@ -64,15 +64,15 @@ module.exports = (pool) => {
                 name: p.name,
                 id: p.id,
                 description: p.description,
-                image: p.images[0].url,
+                image: p.images[0]?.url,
                 owner: p.owner.display_name,
                 tracks: { count: p.tracks.total, href: p.tracks.href },
               });
             });
             storePlaylists(userPlaylists);
           });
-        });
-      res.redirect("http://localhost:3002/index");
+        })
+        .then(() => res.redirect("http://localhost:3000/index"))
     } catch (err) {
       res.send("Invalid or expired token, please login again");
     }

@@ -14,11 +14,24 @@ const args = {
 };
 
 export default function Dashboard() {
+  const onClick = ( )=> {
+    fetch("/playlist/create", {
+      method: "POST",
+      body: JSON.stringify({
+        name: "abcd",
+        description: "abcde"
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+  }
   return (
     <div className="App">
       <div className="navbar">
         <Navbar />
       </div>
+      <button onClick={onClick}>Create playlist</button>
       <div className="content">
         <Header />
         <div className="categoriesTitle">
