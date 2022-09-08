@@ -1,7 +1,7 @@
 import React from "react";
-import "../styles/dashboard.scss";
-import Navbar from "./Navbar/Navbar";
 import Header from "./Header/Header";
+import Navbar from "./Navbar/Navbar";
+import "../styles/dashboard.scss";
 import CategoryCard from "./CategoryCard/CategoryCard";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 

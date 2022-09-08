@@ -4,7 +4,14 @@ import "./Header.scss";
 export default function Header() {
   return (
     <div className="header">
-      <h1>Spotify Playlist Manager</h1>
+      <div className="headerTitle">
+        <img
+          id="logo"
+          src="https://1000logos.net/wp-content/uploads/2021/04/Spotify-logo.png"
+          alt="logo"
+        />
+        <h1>Playlist Manager</h1>
+      </div>
       <button id="profileButton">
         <img
           id="userPhoto"

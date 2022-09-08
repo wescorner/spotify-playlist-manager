@@ -1,5 +1,5 @@
 .App {
-  background-color: #121212;
+  background-color: #181818;
   height: 100vh;
   width: 100vw;
   display: table;
@@ -16,14 +16,15 @@
   flex-wrap: wrap;
   justify-content: center;
   height: 60%;
+
   .card {
     margin: 1%;
     width: 20%;
-    background-color: #181818;
+    background-color: #282828;
     color: white;
 
     &:hover {
-      background-color: #282828;
+      background-color: #2E2E2E;
       cursor: pointer;
     }
 
@@ -45,7 +46,7 @@
 
   .addIcon {
     align-self: center;
-    margin-left: 3%;
+    margin-left: 2%;
     height: 5%;
     width: 5%;
 
