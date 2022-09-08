@@ -8,9 +8,9 @@ export default function CategoryCard({ image, description, title, totalPlaylists
         <Card.Title>{title}</Card.Title>
         <Card.Text>
           {description} <br />
-          <hr />
-          Playlists: {totalPlaylists}
         </Card.Text>
+        <hr />
+        <Card.Text>Playlists: {totalPlaylists}</Card.Text>
       </Card.Body>
     </Card>
   );

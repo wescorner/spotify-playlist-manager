@@ -1,0 +1,118 @@
+.categoryHeader {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  margin-left: 5%;
+  margin-right: 10%;
+
+  .categoryInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 5%;
+    width: 60%;
+  }
+
+  #categoryImage {
+    width: 15rem;
+    height: 15rem;
+  }
+
+  #categoryTitle {
+    font-weight: 700;
+  }
+
+  #categoryButtons {
+    display: flex;
+    flex-direction: row;
+    
+    button {
+      margin-right: 50px;
+    }
+  }
+}
+
+.categoriesTitle {
+  // justify-content: space-around;
+
+  .addIcon {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.playlists {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  .playlistCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5%;
+    width: 420px;
+    height: 100px;
+    background-color: #282828;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    transition: 0.2s;
+
+    &:hover {
+      background-color: #2E2E2E;
+      cursor: pointer;
+
+      .deleteIcon {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
+    .playlistIcon {
+      height: 100px;
+      width: 100px;
+      border-radius: 10px 0px 0px 10px;
+    }
+
+    .playlistName {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: 500;
+      width: 300px;
+    }
+
+    .deleteIcon {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s linear, opacity 0.2s linear;
+      margin-right: 25px;
+      
+      svg {
+        height: 40px;
+        width: 40px;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+}
+
+.btn-edit {
+  background-color: #1FDF64;
+  border-radius: 20px;
+  width: 7em;
+}
+
+.btn-delete {
+  background-color: red;
+  border-radius: 20px;
+  width: 7em;
+
+}
+
+.mainDivider {
+  color: white;
+}

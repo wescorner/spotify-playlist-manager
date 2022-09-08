@@ -1,13 +1,25 @@
 .header {
   display: flex;
   flex-direction: row;
-  // justify-content: space-around;
+  justify-content: space-around;
   margin: 5%;
   color: white;
 
-  h1 {
-    font-weight: 700;
+  .headerTitle {
+    display: flex;
+    flex-direction: row;
     flex-grow: 1;
+
+    h1 {
+      font-weight: 700;
+    font-size: 4rem;
+    }
+
+    #logo {
+      width: 100px;
+      height: 60px;
+      align-self: center;
+    }
   }
 
   #profileButton {
