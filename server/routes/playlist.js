@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 const { spotifyApi } = require('../app')
 require("dotenv").config()
-const { getPlaylistFromId, storePlaylists, convertMsToMinutesSeconds } = require('../db/helper/playlists')
+const { getPlaylistFromId, storePlaylists, convertMsToMinutesSeconds, getUserPlaylists } = require('../db/helper/playlists')
 
 module.exports = (pool) => {
 
@@ -29,6 +29,24 @@ module.exports = (pool) => {
             res.json(songResult)
           })
       })
+  })
+  router.post('/create', async (req, res) => {
+    
+    const playlistName = req.body.name;
+    const description = req.body.description;
+    const response = await spotifyApi.createPlaylist(playlistName, {description})
+    const idData = await pool.query(`
+      SELECT id FROM users WHERE spotify_id = $1`, [response.body.owner.id]
+    )
+    const userId = idData.rows[0].id
+    
+    await pool.query(`INSERT INTO playlists(name, description, spotify_id, user_id)
+      VALUES($1, $2, $3, $4)`,
+      [response.body.name, response.body.description, response.body.id, userId]
+    )
+    const playlistsData = await getUserPlaylists(userId)
+
+    res.send(playlistsData)
   })
 
   // Its a post route to add songs to an existing playlist
