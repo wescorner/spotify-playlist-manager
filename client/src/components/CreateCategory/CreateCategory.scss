@@ -21,3 +21,13 @@
   width: 6em;
   height: 3em;
 }
+
+.createCardHead{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.createCardCancel:hover {
+  cursor: pointer;
+}

@@ -1,7 +1,22 @@
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import "./Header.scss";
 
 export default function Header() {
+
+  const logout = () => {
+    window.location.href = 'http://accounts.spotify.com/logout'
+  }
+
+  const [profileInfo, setProfileInfo] = useState([])
+
+  useEffect(() => {
+    axios.get('/login/profile')
+      .then(res => {
+        setProfileInfo(res.data)
+      })
+  }, [])
+
   return (
     <div className="header">
       <div className="headerTitle">
@@ -15,12 +30,12 @@ export default function Header() {
       <button id="profileButton">
         <img
           id="userPhoto"
-          src="https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src={profileInfo[0]}
           alt="profile"
         />
-        <span id="username">freelancer5hire</span>
+        <span id="username">{profileInfo[1]}</span>
       </button>
-      <button id="logoutButton">Logout</button>
+      <button onClick={logout} id="logoutButton">Logout</button>
     </div>
   );
 }

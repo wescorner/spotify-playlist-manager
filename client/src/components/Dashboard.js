@@ -27,6 +27,7 @@ export default function Dashboard() {
   const usersCategories = categoryList.map((category) => {
     return (
       <CategoryCard
+        key={category.id}
         image={category.image}
         description={category.description}
         title={category.name}
