@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import Category from "./components/Category/Category";
 import CreateCategory from "./components/CreateCategory/CreateCategory";
+import Stats from "./components/Stats/Stats";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/dashboard" exact element={<Dashboard />} />
         <Route path="/category" exact element={<Category />} />
         <Route path="/createcategory" exact element={<CreateCategory />} />
+        <Route path="/stats" exact element={<Stats />} />
       </Routes>
     </Router>
   );

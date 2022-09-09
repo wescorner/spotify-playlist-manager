@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import Header from "../Header/Header";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import PlaylistsModal from "../PlaylistsModal/PlaylistsModal";
 import "./Category.scss";
+import axios from "axios";
 
 const args = {
   title: "Chill Vibes Playlist",

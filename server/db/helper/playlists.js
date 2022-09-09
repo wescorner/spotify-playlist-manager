@@ -4,7 +4,7 @@ const pool = require("../../configs/db.config")
 
 const getUserPlaylists = (userId) => {
   return pool.query(`
-    SELECT spotify_id FROM playlists 
+    SELECT * FROM playlists 
     WHERE user_id = $1`,
     [userId]
   )
@@ -62,4 +62,4 @@ function convertMsToMinutesSeconds(milliseconds) {
     : `${minutes}:${padTo2Digits(seconds)}`;
 }
 
-module.exports = { storePlaylists, convertMsToMinutesSeconds }
+module.exports = { storePlaylists, convertMsToMinutesSeconds, getUserPlaylists }

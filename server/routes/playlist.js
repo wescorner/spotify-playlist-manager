@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 const { spotifyApi } = require('../app')
 require("dotenv").config()
-const { getPlaylistFromId, storePlaylists, convertMsToMinutesSeconds } = require('../db/helper/playlists')
+const { getPlaylistFromId, storePlaylists, convertMsToMinutesSeconds, getUserPlaylists } = require('../db/helper/playlists')
 
 module.exports = (pool) => {
 
@@ -24,11 +24,29 @@ module.exports = (pool) => {
           .then((data) => {
             data.body.tracks.items.forEach(song => {
               let duration = convertMsToMinutesSeconds(song.track.duration_ms)
-              songResult.push([song.track.album.images[2].url, song.track.name, song.track.album.name, song.track.album.release_date, duration])
+              songResult.push({ image: song.track.album.images[2].url, name: song.track.name, album: song.track.album.name, releaseDate: song.track.album.release_date, duration: duration })
             })
             res.json(songResult)
           })
       })
+  })
+  router.post('/create', async (req, res) => {
+
+    const playlistName = req.body.name;
+    const description = req.body.description;
+    const response = await spotifyApi.createPlaylist(playlistName, { description })
+    const idData = await pool.query(`
+      SELECT id FROM users WHERE spotify_id = $1`, [response.body.owner.id]
+    )
+    const userId = idData.rows[0].id
+
+    await pool.query(`INSERT INTO playlists(name, description, spotify_id, user_id)
+      VALUES($1, $2, $3, $4)`,
+      [response.body.name, response.body.description, response.body.id, userId]
+    )
+    const playlistsData = await getUserPlaylists(userId)
+
+    res.send(playlistsData)
   })
 
   // Its a post route to add songs to an existing playlist
@@ -47,7 +65,7 @@ module.exports = (pool) => {
       })
   })
 
-  router.delete(':/id', (req, res) => {
+  router.delete('/:id', (req, res) => {
     const playlistId = req.params.id
     return pool.query(`
     DELETE FROM categories_playlists 

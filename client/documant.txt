@@ -1,0 +1,13 @@
+
+fetch call to create a new playlist:
+
+    fetch("/playlist/create", {
+          method: "POST",
+          body: JSON.stringify({
+            name: "abcd",
+            description: "abcde"
+          }),
+          headers: {
+            "content-type": "application/json",
+          },
+        })
