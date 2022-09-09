@@ -41,6 +41,12 @@ module.exports = (pool) => {
               })
           })
       })
+      .catch(err => {
+        if (err.body.error.message === 'No token provided') {
+          return res.redirect('/login')
+        }
+        res.sendStatus(500)
+      })
   })
 
   // Checks that the current user exists and adds a category to their database using req.body(categoryName, categoryImage)
