@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header/Header";
 import Navbar from "./Navbar/Navbar";
 import "../styles/dashboard.scss";
 import CategoryCard from "./CategoryCard/CategoryCard";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import axios from "axios";
+
 
 const args = {
   title: "Long drive",
@@ -14,13 +16,33 @@ const args = {
 };
 
 export default function Dashboard() {
-  
+
+  const [categoryList, setCategoryList] = useState([])
+
+  useEffect(() => {
+    axios.get('/category')
+      .then(res => {
+        setCategoryList(res.data)
+      })
+  }, [])
+
+  const usersCategories = categoryList.map(category => {
+    return (
+      <CategoryCard
+        image={category.image}
+        description={category.description}
+        title={category.name}
+        totalPlaylists={category.count}
+      />
+    )
+  })
+
   return (
     <div className="App">
       <div className="navbar">
         <Navbar />
       </div>
-      
+
       <div className="content">
         <Header />
         <div className="categoriesTitle">
@@ -28,14 +50,7 @@ export default function Dashboard() {
           <AddCircleIcon className="addIcon" />
         </div>
         <div className="categories">
-          <CategoryCard className="categoryItem" {...args} />
-          <CategoryCard className="categoryItem" {...args} />
-          <CategoryCard className="categoryItem" {...args} />
-          <CategoryCard className="categoryItem" {...args} />
-          <CategoryCard className="categoryItem" {...args} />
-          <CategoryCard className="categoryItem" {...args} />
-          <CategoryCard className="categoryItem" {...args} />
-          <CategoryCard className="categoryItem" {...args} />
+          {usersCategories}
         </div>
       </div>
     </div>
