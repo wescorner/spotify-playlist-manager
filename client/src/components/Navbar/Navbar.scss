@@ -34,23 +34,29 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-
+  
   .navrow {
     display: flex;
     flex-direction: row;
-    // justify-content: space-around;
     align-items: center;
     margin-top: 5%;
     margin-bottom: 5%;
+    
+    > * {
+      color: rgb(182, 182, 182);
+      text-decoration: none;
+
+      &:hover {
+        color: white;
+        cursor: pointer;
+      }
+    }
     
     #icon {
       margin-right: 10%;
     }
 
-    &:hover {
-      color: white;
-      cursor: pointer;
-    }
+    
 
   }
 }

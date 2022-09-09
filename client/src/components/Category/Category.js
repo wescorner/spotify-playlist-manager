@@ -4,8 +4,9 @@ import Header from "../Header/Header";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Button from "react-bootstrap/Button";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
+import PlaylistsModal from "../PlaylistsModal/PlaylistsModal";
 import "./Category.scss";
-import axios from 'axios'
+import axios from "axios";
 
 const args = {
   title: "Chill Vibes Playlist",
@@ -16,6 +17,7 @@ const args = {
 };
 
 export default function Category() {
+  const [modalShow, setModalShow] = useState(false);
 
   return (
     <div className="App">
@@ -50,8 +52,9 @@ export default function Category() {
         <hr className="mainDivider" />
         <div className="categoriesTitle">
           <h1>Playlists</h1>
-          <AddCircleIcon className="addIcon" />
+          <AddCircleIcon className="addIcon" onClick={() => setModalShow(true)} />
         </div>
+        <PlaylistsModal show={modalShow} onHide={() => setModalShow(false)} />
         <div className="playlists">
           <PlaylistCard className="playlistItem" {...args} />
           <PlaylistCard className="playlistItem" {...args} />

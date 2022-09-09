@@ -33,11 +33,12 @@
 }
 
 .categoriesTitle {
-  // justify-content: space-around;
-
+  margin-left: 75px;
   .addIcon {
     height: 40px;
     width: 40px;
+    align-self: center;
+    margin-left: 1%;
   }
 }
 
@@ -67,6 +68,11 @@
         visibility: visible;
         opacity: 1;
       }
+
+      .addIcon {
+        visibility: visible;
+        opacity: 1;
+      }
     }
 
     .playlistIcon {
@@ -83,6 +89,22 @@
     }
 
     .deleteIcon {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s linear, opacity 0.2s linear;
+      margin-right: 25px;
+      
+      svg {
+        height: 40px;
+        width: 40px;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    .addIcon {
       visibility: hidden;
       opacity: 0;
       transition: visibility 0.2s linear, opacity 0.2s linear;

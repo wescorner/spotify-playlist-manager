@@ -8,7 +8,10 @@ export default function Login() {
     <Container className="d-flex flex-column align-items-md-center min-vh-100 min-vw-100 bg-black">
       <img src={spotifyLogo} alt="SpotifyLogo" />
       <h1 className="title">Playlist Manager</h1>
-      <a href="http://localhost:8080/login"> Log in With Spotify</a>
+      <a className="login" href="http://localhost:8080/login">
+        {" "}
+        Log in With Spotify
+      </a>
     </Container>
   );
 }

@@ -4,8 +4,8 @@ import Navbar from "./Navbar/Navbar";
 import "../styles/dashboard.scss";
 import CategoryCard from "./CategoryCard/CategoryCard";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { Link } from "react-router-dom";
 import axios from "axios";
-
 
 const args = {
   title: "Long drive",
@@ -16,17 +16,15 @@ const args = {
 };
 
 export default function Dashboard() {
-
-  const [categoryList, setCategoryList] = useState([])
+  const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
-    axios.get('/category')
-      .then(res => {
-        setCategoryList(res.data)
-      })
-  }, [])
+    axios.get("/category").then((res) => {
+      setCategoryList(res.data);
+    });
+  }, []);
 
-  const usersCategories = categoryList.map(category => {
+  const usersCategories = categoryList.map((category) => {
     return (
       <CategoryCard
         image={category.image}
@@ -34,8 +32,8 @@ export default function Dashboard() {
         title={category.name}
         totalPlaylists={category.count}
       />
-    )
-  })
+    );
+  });
 
   return (
     <div className="App">
@@ -47,11 +45,11 @@ export default function Dashboard() {
         <Header />
         <div className="categoriesTitle">
           <h1>Categories</h1>
-          <AddCircleIcon className="addIcon" />
+          <Link to="/createcategory">
+            <AddCircleIcon className="addIcon" href="/createcategory" />
+          </Link>
         </div>
-        <div className="categories">
-          {usersCategories}
-        </div>
+        <div className="categories">{usersCategories}</div>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import "./Navbar.scss";
 import { NavbarData } from "./NavbarData";
 import { CategoriesData } from "./CategoriesData";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -10,8 +11,12 @@ export default function Navbar() {
         {NavbarData.map((val, key) => {
           return (
             <li className="navrow" key={key} onClick={() => console.log("click")}>
-              <div id="icon">{val.icon}</div>
-              <div id="navtitle">{val.title}</div>
+              <Link to={val.link} id="icon">
+                {val.icon}
+              </Link>
+              <Link to={val.link} id="navtitle">
+                {val.title}
+              </Link>
             </li>
           );
         })}
