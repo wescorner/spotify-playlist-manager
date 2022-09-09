@@ -11,3 +11,17 @@ fetch call to create a new playlist:
             "content-type": "application/json",
           },
         })
+
+server call for searching new song:
+
+        const onSearch = () => {
+    fetch("playlist/search", {
+      method: "POST",
+      body: JSON.stringify({
+        searchQuery: "cheap thrills",
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+  }
