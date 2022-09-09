@@ -64,7 +64,7 @@ module.exports = (pool) => {
       })
   })
 
-  router.delete("/id", (req, res) => {
+  router.delete("/:id", (req, res) => {
     const categoryId = req.params.id
     spotifyApi.get()
       .then(data => {
