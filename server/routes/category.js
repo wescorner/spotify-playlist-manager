@@ -31,15 +31,29 @@ module.exports = (pool) => {
   })
 
   router.get("/", (req, res) => {
+    const categoryInformation = []
     spotifyApi.getMe()
       .then(data => {
         return pool.query(`SELECT id FROM users WHERE spotify_id = $1`, [data.body.id])
           .then(data => {
-            return pool.query(`SELECT * FROM categories WHERE user_id = $1`, [data.rows[0].id])
+            return pool.query(
+              `SELECT categories.id, categories.description, categories.name, categories.image, categories.user_id, COUNT(playlist_id) 
+            FROM categories JOIN categories_playlists ON categories.id = categories_playlists.category_id
+            WHERE user_id = $1
+            GROUP BY categories.description, categories.name, categories.image, categories.id, categories.user_id
+            `, [data.rows[0].id])
               .then(data => {
                 res.json(data.rows)
               })
           })
+
+      })
+      .catch(err => {
+        console.log(err)
+        if (err.body.error.message === 'No token provided') {
+          return res.redirect('/login')
+        }
+        res.sendStatus(500)
       })
   })
 
