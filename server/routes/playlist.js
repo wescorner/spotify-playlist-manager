@@ -50,7 +50,6 @@ module.exports = (pool) => {
   })
 
   router.post('/search', async (req, res) => {
-    console.log('/search')
     const searchQuery = req.body.searchQuery;
     const types = ['track']
     const searchResult = await spotifyApi.search(searchQuery, types, {limit:10})
@@ -60,7 +59,7 @@ module.exports = (pool) => {
       const track = {}
       track["name"] = item.name;
       track["uri"] = item.uri;
-      track["duration_ms"] = item.duration_ms;
+      track["duration_ms"] = convertMsToMinutesSeconds(item.duration_ms);
       track["artist"] = item.album.artists[0].name;
       track["album"] = item.album.name;
       track["image"] = item.album.images[0].url
@@ -74,16 +73,29 @@ module.exports = (pool) => {
   // It receives playlist_id and track id in the body of the request
   router.post('/:id', async (req, res) => {
     const playlistId = req.body.playlistId
-    const trackId = req.body.trackId
+    const track = req.body.track
 
-    spotifyApi.addTracksToPlaylist(playlistId, trackId)
-      .then(() => {
+    const id = await pool.query(`
+    SELECT spotify_id FROM playlists WHERE id = $1`,
+      [playlistId]
+    )
+    const spotifyId = id.rows[0].spotify_id
+    await spotifyApi.addTracksToPlaylist(spotifyId, track)
+    const playlistData = await spotifyApi.getPlaylist(spotifyId)
+    const playlist = []
 
-
-      })
-      .catch(error => {
-        console.log("Error occured", error)
-      })
+    playlistData.body.tracks.items.map((song) => {
+      let duration = convertMsToMinutesSeconds(song.track.duration_ms)
+      playlist.push(
+        { image: song.track.album.images[2].url, 
+          name: song.track.name, 
+          album: song.track.album.name,
+          artist: song.track.album.artists[0].name, 
+          releaseDate: song.track.album.release_date, 
+          duration: duration 
+        })
+    }) 
+    res.send(playlist)
   })
 
   router.delete('/:id', (req, res) => {
