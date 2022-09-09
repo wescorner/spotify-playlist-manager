@@ -1,5 +1,5 @@
 // route to login page
-const { profile } = require("console");
+const { profile, profileEnd } = require("console");
 const express = require("express");
 const router = express.Router();
 const querystring = require("querystring");
@@ -16,12 +16,12 @@ module.exports = (pool) => {
 
     res.redirect(
       "https://accounts.spotify.com/authorize?" +
-        querystring.stringify({
-          response_type: "code",
-          client_id: process.env.CLIENT_ID,
-          scope: scope,
-          redirect_uri: process.env.REDIRECT_URI,
-        })
+      querystring.stringify({
+        response_type: "code",
+        client_id: process.env.CLIENT_ID,
+        scope: scope,
+        redirect_uri: process.env.REDIRECT_URI,
+      })
     );
   });
 
@@ -37,7 +37,7 @@ module.exports = (pool) => {
       //Inserts user details into database if they don't already exist
       spotifyApi
         .getMe()
-        .then(({body: {images, display_name, email, id}}) => {
+        .then(({ body: { images, display_name, email, id } }) => {
           const profileInfo = [];
           profileInfo.push(
             images[0].url,
@@ -72,11 +72,25 @@ module.exports = (pool) => {
             storePlaylists(userPlaylists);
           });
         })
-        .then(() => res.redirect("http://localhost:3000/index"))
+        .then(() => res.redirect("http://localhost:3000/dashboard"))
     } catch (err) {
-      res.send("Invalid or expired token, please login again");
+      res.send(err);
     }
   });
 
+  router.get('/profile', (req, res) => {
+    spotifyApi
+      .getMe()
+      .then(({ body: { images, display_name, email, id } }) => {
+        const profileInfo = [];
+        profileInfo.push(
+          images[0].url,
+          display_name,
+          email.toLowerCase(),
+          id
+        );
+        res.send(profileInfo)
+      })
+  })
   return router;
 };

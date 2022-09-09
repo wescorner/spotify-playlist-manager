@@ -38,7 +38,7 @@ module.exports = (pool) => {
           .then(data => {
             return pool.query(
               `SELECT categories.id, categories.description, categories.name, categories.image, categories.user_id, COUNT(playlist_id) 
-            FROM categories JOIN categories_playlists ON categories.id = categories_playlists.category_id
+            FROM categories LEFT JOIN categories_playlists ON categories.id = categories_playlists.category_id
             WHERE user_id = $1
             GROUP BY categories.description, categories.name, categories.image, categories.id, categories.user_id
             `, [data.rows[0].id])
@@ -70,10 +70,13 @@ module.exports = (pool) => {
         return pool.query(`SELECT id FROM users WHERE spotify_id = $1`, [data.body.id])
           .then(data => {
             categoryInfo.push(data.rows[0].id)
-            return pool.query(`INSERT INTO categories(name, image, description, user_id) VALUES($1, $2, $3, $4)`, [categoryInfo])
-          })
-          .catch(err => {
-            res.send('Invalid or expired token, please login again')
+            return pool.query(`INSERT INTO categories (name, image, description, user_id) VALUES ($1, $2, $3, $4)`, categoryInfo)
+              .then(data => {
+                res.sendStatus(200)
+              })
+              .catch(err => {
+                console.log(err)
+              })
           })
       })
   })
