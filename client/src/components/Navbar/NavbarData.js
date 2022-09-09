@@ -7,12 +7,12 @@ export const NavbarData = [
   {
     title: "Home",
     icon: <HomeIcon />,
-    link: "/index",
+    link: "/dashboard",
   },
   {
     title: "Playlists",
     icon: <LibraryMusicIcon />,
-    link: "/playlists",
+    link: "/category",
   },
   {
     title: "Create Category",

@@ -4,6 +4,7 @@ import Navbar from "./Navbar/Navbar";
 import "../styles/dashboard.scss";
 import CategoryCard from "./CategoryCard/CategoryCard";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { Link } from "react-router-dom";
 
 const args = {
   title: "Long drive",
@@ -23,7 +24,9 @@ export default function Dashboard() {
         <Header />
         <div className="categoriesTitle">
           <h1>Categories</h1>
-          <AddCircleIcon className="addIcon" />
+          <Link to="/createcategory">
+            <AddCircleIcon className="addIcon" href="/createcategory" />
+          </Link>
         </div>
         <div className="categories">
           <CategoryCard className="categoryItem" {...args} />

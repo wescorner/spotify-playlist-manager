@@ -42,13 +42,19 @@
   color: white;
   display: flex;
   flex-direction: row;
-  margin: 5%;
+  margin-left: 75px;
+  margin: 3%;
+  margin-left: 7%;
+
+  a {
+    align-self: center;
+    margin-left: 1%;
+  }
 
   .addIcon {
-    align-self: center;
-    margin-left: 2%;
-    height: 5%;
-    width: 5%;
+    color: white;
+    height: 40px;
+    width: 40px;
 
     &:hover {
       cursor: pointer;

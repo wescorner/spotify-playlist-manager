@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Header from "../Header/Header";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Button from "react-bootstrap/Button";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
+import PlaylistsModal from "../PlaylistsModal/PlaylistsModal";
 import "./Category.scss";
 
 const args = {
@@ -15,6 +16,8 @@ const args = {
 };
 
 export default function Category() {
+  const [modalShow, setModalShow] = useState(false);
+
   return (
     <div className="App">
       <div className="navbar">
@@ -48,8 +51,9 @@ export default function Category() {
         <hr className="mainDivider" />
         <div className="categoriesTitle">
           <h1>Playlists</h1>
-          <AddCircleIcon className="addIcon" />
+          <AddCircleIcon className="addIcon" onClick={() => setModalShow(true)} />
         </div>
+        <PlaylistsModal show={modalShow} onHide={() => setModalShow(false)} />
         <div className="playlists">
           <PlaylistCard className="playlistItem" {...args} />
           <PlaylistCard className="playlistItem" {...args} />
