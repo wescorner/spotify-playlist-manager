@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 const { spotifyApi } = require('../app')
 require("dotenv").config()
-const { getPlaylistFromId, storePlaylists, convertMsToMinutesSeconds, getUserPlaylists } = require('../db/helper/playlists')
+const { getPlaylistFromId, storePlaylists, convertMsToMinutesSeconds, getUserPlaylists, updatePlaylist } = require('../db/helper/playlists')
 
 module.exports = (pool) => {
 
@@ -82,8 +82,16 @@ module.exports = (pool) => {
     const spotifyId = id.rows[0].spotify_id
     await spotifyApi.addTracksToPlaylist(spotifyId, track)
     const playlistData = await spotifyApi.getPlaylist(spotifyId)
+    const playlistUpdatedData = [
+      playlistData.body.images[0].url, 
+      playlistData.body.owner.display_name, 
+      playlistData.body.name, 
+      playlistData.body.description, 
+      playlistData.body.tracks.total, 
+      playlistData.body.tracks.href
+    ]
+    await updatePlaylist(playlistId, playlistUpdatedData)
     const playlist = []
-
     playlistData.body.tracks.items.map((song) => {
       let duration = convertMsToMinutesSeconds(song.track.duration_ms)
       playlist.push(
@@ -106,6 +114,5 @@ module.exports = (pool) => {
       [playlistId]
     )
   })
-
   return router
 };
