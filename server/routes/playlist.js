@@ -31,15 +31,15 @@ module.exports = (pool) => {
       })
   })
   router.post('/create', async (req, res) => {
-    
+
     const playlistName = req.body.name;
     const description = req.body.description;
-    const response = await spotifyApi.createPlaylist(playlistName, {description})
+    const response = await spotifyApi.createPlaylist(playlistName, { description })
     const idData = await pool.query(`
       SELECT id FROM users WHERE spotify_id = $1`, [response.body.owner.id]
     )
     const userId = idData.rows[0].id
-    
+
     await pool.query(`INSERT INTO playlists(name, description, spotify_id, user_id)
       VALUES($1, $2, $3, $4)`,
       [response.body.name, response.body.description, response.body.id, userId]
@@ -65,7 +65,7 @@ module.exports = (pool) => {
       })
   })
 
-  router.delete(':/id', (req, res) => {
+  router.delete('/:id', (req, res) => {
     const playlistId = req.params.id
     return pool.query(`
     DELETE FROM categories_playlists 
