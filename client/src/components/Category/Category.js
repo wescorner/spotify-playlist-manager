@@ -6,7 +6,6 @@ import Button from "react-bootstrap/Button";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import "./Category.scss";
 import axios from 'axios'
-import CategoryCard from "../CategoryCard/CategoryCard";
 
 const args = {
   title: "Chill Vibes Playlist",
