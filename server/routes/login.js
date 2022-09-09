@@ -1,5 +1,5 @@
 // route to login page
-const { profile } = require("console");
+const { profile, profileEnd } = require("console");
 const express = require("express");
 const router = express.Router();
 const querystring = require("querystring");
@@ -72,11 +72,25 @@ module.exports = (pool) => {
             storePlaylists(userPlaylists);
           });
         })
-        .then(() => res.redirect("http://localhost:3000/index"))
+        .then(() => res.redirect("http://localhost:3000/dashboard"))
     } catch (err) {
       res.send(err);
     }
   });
 
+  router.get('/profile', (req, res) => {
+    spotifyApi
+      .getMe()
+      .then(({ body: { images, display_name, email, id } }) => {
+        const profileInfo = [];
+        profileInfo.push(
+          images[0].url,
+          display_name,
+          email.toLowerCase(),
+          id
+        );
+        res.send(profileInfo)
+      })
+  })
   return router;
 };
