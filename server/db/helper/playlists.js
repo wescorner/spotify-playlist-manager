@@ -44,9 +44,21 @@ const storePlaylists = (playlists) => {
 
       }
       return Promise.all(allPlaylists)
-
     })
+}
 
+const updatePlaylist = (playlistId, playlistData) => {
+  playlistData.push(playlistId)
+  return pool.query(`
+    UPDATE playlists
+    SET image = $1,
+    owner = $2,
+    name = $3,
+    description = $4,
+    total_tracks = $5,
+    tracks = $6
+    WHERE id = $7
+  `, [...playlistData])
 }
 
 function padTo2Digits(num) {
@@ -62,4 +74,4 @@ function convertMsToMinutesSeconds(milliseconds) {
     : `${minutes}:${padTo2Digits(seconds)}`;
 }
 
-module.exports = { storePlaylists, convertMsToMinutesSeconds, getUserPlaylists }
+module.exports = { storePlaylists, convertMsToMinutesSeconds, getUserPlaylists, updatePlaylist }
