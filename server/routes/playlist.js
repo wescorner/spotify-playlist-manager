@@ -24,7 +24,7 @@ module.exports = (pool) => {
           .then((data) => {
             data.body.tracks.items.forEach(song => {
               let duration = convertMsToMinutesSeconds(song.track.duration_ms)
-              songResult.push([song.track.album.images[2].url, song.track.name, song.track.album.name, song.track.album.release_date, duration])
+              songResult.push({ image: song.track.album.images[2].url, name: song.track.name, album: song.track.album.name, releaseDate: song.track.album.release_date, duration: duration })
             })
             res.json(songResult)
           })
