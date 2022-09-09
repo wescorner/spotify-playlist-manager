@@ -25,3 +25,15 @@ server call for searching new song:
       },
     })
   }
+
+server call for adding new song:
+  fetch("/playlist/:id", {
+      method: "POST",
+      body: JSON.stringify({
+        playlistId: 23,
+        track: ["spotify:track:27SdWb2rFzO6GWiYDBTD9j"]
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    })
