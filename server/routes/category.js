@@ -95,11 +95,11 @@ module.exports = (pool) => {
         .query(`SELECT id FROM users WHERE spotify_id = $1`, [data.body.id])
     })
     .then((data) => {
-      return pool.query(`DELETE FROM categories WHERE id = $1 AND users_id = $2`, [
+      return pool.query(`DELETE FROM categories WHERE id = $1 AND user_id = $2`, [
         categoryId,
         data.rows[0].id,
       ])
-    })
+    }).then(() => res.sendStatus(200))
     .catch((error) => {
       console.log(error)
       return res.sendStatus(500)
