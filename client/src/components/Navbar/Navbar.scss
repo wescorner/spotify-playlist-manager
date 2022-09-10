@@ -17,11 +17,9 @@
 
 .categoriesList {
   list-style-type: none;
-  margin: 5%;
 
   li {
     padding-top: 10%;
-    padding-bottom: 10%;
 
     &:hover {
       color: white;
@@ -35,28 +33,28 @@
   justify-content: center;
   flex-direction: column;
   
-  .navrow {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    
-    > * {
-      color: rgb(182, 182, 182);
-      text-decoration: none;
+  
 
-      &:hover {
-        color: white;
-        cursor: pointer;
-      }
+}
+
+.navrow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  
+  > * {
+    color: rgb(182, 182, 182);
+    text-decoration: none;
+
+    &:hover {
+      color: white;
+      cursor: pointer;
     }
-    
-    #icon {
-      margin-right: 10%;
-    }
-
-    
-
+  }
+  
+  #icon {
+    margin-right: 10%;
   }
 }

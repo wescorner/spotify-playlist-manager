@@ -44,7 +44,7 @@ export default function Navbar() {
       <ul className="categoriesList">
         {usersCategories.map((c) => {
           return (
-            <li key={c.key}>
+            <li className="navrow" key={c.key}>
               <Link to={c.link}>{c.title}</Link>
             </li>
           );
