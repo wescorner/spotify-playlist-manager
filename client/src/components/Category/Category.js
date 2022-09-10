@@ -8,17 +8,19 @@ import PlaylistsModal from "../PlaylistsModal/PlaylistsModal";
 import "./Category.scss";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import EditCategoryModal from "../EditCategoryModal/EditCategoryModal";
 
 export default function Category() {
   let { id } = useParams();
-  const [modalShow, setModalShow] = useState(false);
+  const [playlistModalShow, setPlaylistModalShow] = useState(false);
+  const [editModalShow, setEditModalShow] = useState(false);
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
     axios.get(`/category/${id}`).then((res) => {
       setCategory(res.data);
     });
-  }, [id, setCategory, modalShow]);
+  }, [id, setCategory, playlistModalShow]);
 
   const playlistItems = category.map((item, key) => {
     const args = {
@@ -59,7 +61,7 @@ export default function Category() {
             <h1 id="categoryTitle">{category[0] && category[0].category_name}</h1>
             <p id="categoryDescription">{category[0] && category[0].category_desc}</p>
             <div id="categoryButtons">
-              <Button id="edit" variant="edit">
+              <Button id="edit" variant="edit" onClick={() => setEditModalShow(true)}>
                 Edit
               </Button>
               <Button id="edit" variant="delete">
@@ -68,21 +70,27 @@ export default function Category() {
             </div>
           </div>
         </div>
+        <EditCategoryModal
+          show={editModalShow}
+          onHide={() => {
+            setEditModalShow(false);
+          }}
+        />
         <hr className="mainDivider" />
         <div className="categoriesTitle">
           <h1>Playlists</h1>
-          <AddCircleIcon className="addIcon" onClick={() => setModalShow(true)} />
+          <AddCircleIcon className="addIcon" onClick={() => setPlaylistModalShow(true)} />
         </div>
         <PlaylistsModal
           category={category}
           setCategory={setCategory}
           categoryid={id}
-          show={modalShow}
+          show={playlistModalShow}
           onHide={() => {
-            setModalShow(false);
+            setPlaylistModalShow(false);
           }}
           onAdd={() => {
-            setModalShow(false);
+            setPlaylistModalShow(false);
           }}
         />
         <div className="playlists">{playlistItems}</div>
