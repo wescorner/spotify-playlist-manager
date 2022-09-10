@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install",
     "lint": "eslint --fix './**/*.js'",
     "format": "prettier --write .",
     "start": "nodemon server app.js",
@@ -28,11 +27,6 @@
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
     "eslint": "^8.23.0",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
     "nodemon": "^2.0.19"
-  },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix"
   }
 }

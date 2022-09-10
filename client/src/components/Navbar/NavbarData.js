@@ -12,7 +12,7 @@ export const NavbarData = [
   {
     title: "Playlists",
     icon: <LibraryMusicIcon />,
-    link: "/category",
+    link: "/category-page",
   },
   {
     title: "Create Category",

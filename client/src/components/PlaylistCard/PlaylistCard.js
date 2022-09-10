@@ -19,7 +19,7 @@ export default function PlaylistCard({
         data: { category: categoryid },
       })
       .then(() => {
-        window.location.href = `/category/${categoryid}`;
+        window.location.href = `/category-page/${categoryid}`;
       });
   };
 

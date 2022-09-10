@@ -4,11 +4,13 @@ import Navbar from "./Navbar/Navbar";
 import "../styles/dashboard.scss";
 import CategoryCard from "./CategoryCard/CategoryCard";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Dashboard() {
   const [categoryList, setCategoryList] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get("/category").then((res) => {
@@ -24,7 +26,7 @@ export default function Dashboard() {
         description={category.description}
         title={category.name}
         totalPlaylists={category.count}
-        onClick={e => console.log(category.id)}
+        onClick={() => navigate(`/category-page/${category.id}`)}
       />
     );
   });
