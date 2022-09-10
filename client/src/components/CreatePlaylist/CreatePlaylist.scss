@@ -1,0 +1,33 @@
+.createCard {
+  background-color: #2E2E2E;
+  color: white;
+  width: 75%;
+  left: 12.5%;
+  margin-top: 5%;
+
+  label{
+    font-size: 1.25em;
+  }
+
+  > * {
+    padding: 20px;
+  }
+}
+
+.btn-submit {
+  background-color: #1FDF64;
+  border-radius: 20px;
+  position: relative;
+  width: 6em;
+  height: 3em;
+}
+
+.createCardHead{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.createCardCancel:hover {
+  cursor: pointer;
+}

@@ -4,26 +4,24 @@ import Header from "../Header/Header";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import "./CreateCategory.scss";
+import "./CreatePlaylist.scss";
 import axios from "axios";
 import CancelIcon from "@material-ui/icons/Cancel";
 
-export default function CreateCategory() {
+export default function CreatePlaylist() {
   const refreshToDashboard = () => {
     window.location.href = "/dashboard";
   };
 
   const [name, setName] = useState("");
-  const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
 
   const handleSubmit = function (e) {
     e.preventDefault();
     axios
-      .post("/category", {
-        categoryName: name,
-        categoryImage: image,
-        categoryDescription: description,
+      .post("/playlist/create", {
+        name: name,
+        description: description,
       })
       .then((response) => {
         refreshToDashboard();
@@ -32,7 +30,6 @@ export default function CreateCategory() {
         console.log(err);
       });
   };
-
   return (
     <div className="App">
       <div className="navbar">
@@ -42,13 +39,13 @@ export default function CreateCategory() {
         <Header />
         <Card className="createCard">
           <Card.Header className="createCardHead">
-            <h1>Create Category</h1>
+            <h1>Create Playlist</h1>
             <CancelIcon onClick={refreshToDashboard} className="svg_icons createCardCancel" />
           </Card.Header>
           <Card.Body>
             <Form className="createForm" onSubmit={handleSubmit}>
               <Form.Group className="mb-5">
-                <Form.Label>Category Name</Form.Label>
+                <Form.Label>Playlist Name</Form.Label>
                 <Form.Control
                   type="text"
                   value={name}
@@ -59,18 +56,7 @@ export default function CreateCategory() {
                 />
               </Form.Group>
               <Form.Group className="mb-5">
-                <Form.Label>Category Image URL</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={image}
-                  onChange={(e) => {
-                    setImage(e.target.value);
-                  }}
-                  size="lg"
-                />
-              </Form.Group>
-              <Form.Group className="mb-5">
-                <Form.Label>Category Description</Form.Label>
+                <Form.Label>Playlist Description</Form.Label>
                 <Form.Control
                   as="textarea"
                   value={description}

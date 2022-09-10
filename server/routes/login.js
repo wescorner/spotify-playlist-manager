@@ -16,12 +16,12 @@ module.exports = (pool) => {
 
     res.redirect(
       "https://accounts.spotify.com/authorize?" +
-      querystring.stringify({
-        response_type: "code",
-        client_id: process.env.CLIENT_ID,
-        scope: scope,
-        redirect_uri: process.env.REDIRECT_URI,
-      })
+        querystring.stringify({
+          response_type: "code",
+          client_id: process.env.CLIENT_ID,
+          scope: scope,
+          redirect_uri: process.env.REDIRECT_URI,
+        })
     );
   });
 
@@ -39,12 +39,7 @@ module.exports = (pool) => {
         .getMe()
         .then(({ body: { images, display_name, email, id } }) => {
           const profileInfo = [];
-          profileInfo.push(
-            images[0].url,
-            display_name,
-            email.toLowerCase(),
-            id
-          );
+          profileInfo.push(images[0].url, display_name, email.toLowerCase(), id);
           return pool.query(`SELECT spotify_id FROM USERS`).then((data) => {
             const userExists = data.rows.find((user) => user.spotify_id === profileInfo[3]);
             if (userExists === undefined) {
@@ -72,25 +67,18 @@ module.exports = (pool) => {
             storePlaylists(userPlaylists);
           });
         })
-        .then(() => res.redirect("http://localhost:3000/dashboard"))
+        .then(() => res.redirect("http://localhost:3000/dashboard"));
     } catch (err) {
       res.send(err);
     }
   });
 
-  router.get('/profile', (req, res) => {
-    spotifyApi
-      .getMe()
-      .then(({ body: { images, display_name, email, id } }) => {
-        const profileInfo = [];
-        profileInfo.push(
-          images[0].url,
-          display_name,
-          email.toLowerCase(),
-          id
-        );
-        res.send(profileInfo)
-      })
-  })
+  router.get("/profile", (req, res) => {
+    spotifyApi.getMe().then(({ body: { images, display_name, email, id } }) => {
+      const profileInfo = [];
+      profileInfo.push(images[0].url, display_name, email.toLowerCase(), id);
+      res.send(profileInfo);
+    });
+  });
   return router;
 };
