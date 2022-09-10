@@ -6,12 +6,13 @@ import Button from "react-bootstrap/Button";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import PlaylistsModal from "../PlaylistsModal/PlaylistsModal";
 import "./Category.scss";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import EditCategoryModal from "../EditCategoryModal/EditCategoryModal";
 
 export default function Category() {
   let { id } = useParams();
+  const navigate = useNavigate();
   const [playlistModalShow, setPlaylistModalShow] = useState(false);
   const [editModalShow, setEditModalShow] = useState(false);
   const [category, setCategory] = useState([]);
@@ -21,6 +22,10 @@ export default function Category() {
       setCategory(res.data);
     });
   }, [id, setCategory, playlistModalShow]);
+
+  const onDelete = () => {
+    axios.delete(`/category/${id}`).then(() => navigate("/dashboard"));
+  };
 
   const playlistItems = category.map((item, key) => {
     const args = {
@@ -64,7 +69,7 @@ export default function Category() {
               <Button id="edit" variant="edit" onClick={() => setEditModalShow(true)}>
                 Edit
               </Button>
-              <Button id="edit" variant="delete">
+              <Button id="edit" variant="delete" onClick={onDelete}>
                 Delete
               </Button>
             </div>

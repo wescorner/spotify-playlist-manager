@@ -1,4 +1,15 @@
 .playlist-head {
   display: flex;
   flex-direction: row;
+  background-color: unset;
+  color: white;
+  border: none
+}
+.playlist-image {
+  background-color: unset;
+  border: none;
+}
+.playlist-image-container{
+  background-color: unset;
+  border: none;
 }
