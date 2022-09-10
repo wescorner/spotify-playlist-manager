@@ -108,7 +108,26 @@ module.exports = (pool) => {
       console.log(err);
       res.sendStatus(500)
     }
+});
 
+  router.delete("/:id", async(req, res) => {
+    try{
+      const playlistId = req.params.id;
+      const categoryId = req.body.category;
+      console.log("playlistid:", playlistId);
+      console.log("categoryid:", categoryId);
+      return pool.query(
+        `
+      await DELETE FROM categories_playlists 
+      WHERE playlist_id = $1 AND category_id = $2`,
+        [playlistId, categoryId]
+      );
+      res.sendStatus(200)
+    }catch(err){
+      console.log(err);
+      res.sendStatus(500)
+    }
+    
   });
 
   router.post("/add-to-category", (req, res) => {
