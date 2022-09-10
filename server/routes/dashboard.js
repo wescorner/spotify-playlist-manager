@@ -21,7 +21,6 @@ module.exports = (pool) => {
         res.json(resultTracks)
       })
       .catch(err => {
-        console.log(err)
         if (err.body.error.message === 'No token provided') {
           return res.redirect('/login')
         }
