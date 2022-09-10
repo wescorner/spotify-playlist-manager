@@ -131,11 +131,14 @@ module.exports = (pool) => {
 
   router.delete("/:id", (req, res) => {
     const playlistId = req.params.id;
+    const categoryId = req.body.category;
+    console.log("playlistid:", playlistId);
+    console.log("categoryid:", categoryId);
     return pool.query(
       `
     DELETE FROM categories_playlists 
-    WHERE playlist_id = $1`,
-      [playlistId]
+    WHERE playlist_id = $1 AND category_id = $2`,
+      [playlistId, categoryId]
     );
   });
 

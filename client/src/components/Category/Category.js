@@ -18,10 +18,12 @@ export default function Category() {
     axios.get(`/category/${id}`).then((res) => {
       setCategory(res.data);
     });
-  }, [setCategory]);
+  }, [id, setCategory]);
 
   const playlistItems = category.map((item, key) => {
     const args = {
+      id: item.playlist_id,
+      categoryid: id,
       title: item.playlist_name,
       description: item.playlist_desc,
       totalTracks: item.total_tracks,
