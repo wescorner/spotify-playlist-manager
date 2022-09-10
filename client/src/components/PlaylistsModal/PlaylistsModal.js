@@ -20,6 +20,8 @@ export default function PlaylistsModal(props) {
 
   const playlistItems = playlists.map((playlist, key) => {
     const args = {
+      category: props.category,
+      setCategory: props.setCategory,
       categoryid: props.categoryid,
       id: playlist.id,
       title: playlist.name,

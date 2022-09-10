@@ -1,24 +1,28 @@
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import axios from "axios";
-import { useState } from "react";
 
-export default function PlaylistModalCard({ categoryid, id, image, title }) {
-  const [add, setAdd] = useState(0);
-
+export default function PlaylistModalCard({ category, setCategory, categoryid, id, image, title }) {
   const handleAdd = function () {
-    console.log("clicked");
-    console.log("category id:", categoryid);
     axios
       .post(`/playlist/add/${id}`, {
         category: categoryid,
       })
       .then(() => {
-        setAdd((add) => add + 1);
+        // window.location.href = `/category/${categoryid}`;
+        setCategory([...category, {}]);
       });
   };
   return (
     <div className="playlistCard">
-      <img className="playlistIcon" src={image} alt="icon" />
+      <img
+        className="playlistIcon"
+        src={
+          image
+            ? image
+            : "https://community.spotify.com/t5/image/serverpage/image-id/55829iC2AD64ADB887E2A5/image-size/large?v=v2&px=999"
+        }
+        alt="icon"
+      />
       <p className="playlistName">{title}</p>
       <div className="addIcon">
         <AddCircleIcon onClick={handleAdd} />

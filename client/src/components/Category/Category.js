@@ -16,17 +16,18 @@ export default function Category() {
 
   useEffect(() => {
     axios.get(`/category/${id}`).then((res) => {
-      console.log(res.data);
       setCategory(res.data);
     });
-  }, [id, setCategory]);
+  }, [setCategory]);
 
   const playlistItems = category.map((item, key) => {
     const args = {
       title: item.playlist_name,
       description: item.playlist_desc,
       totalTracks: item.total_tracks,
-      image: item.playlist_img,
+      image: item.playlist_img
+        ? item.playlist_img
+        : "https://community.spotify.com/t5/image/serverpage/image-id/55829iC2AD64ADB887E2A5/image-size/large?v=v2&px=999",
     };
     if (item.playlist_name) {
       return <PlaylistCard key={key} className="playlistItem" {...args} />;
@@ -70,7 +71,15 @@ export default function Category() {
           <h1>Playlists</h1>
           <AddCircleIcon className="addIcon" onClick={() => setModalShow(true)} />
         </div>
-        <PlaylistsModal categoryid={id} show={modalShow} onHide={() => setModalShow(false)} />
+        <PlaylistsModal
+          category={category}
+          setCategory={setCategory}
+          categoryid={id}
+          show={modalShow}
+          onHide={() => {
+            setModalShow(false);
+          }}
+        />
         <div className="playlists">{playlistItems}</div>
       </div>
     </div>
