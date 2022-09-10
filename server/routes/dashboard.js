@@ -11,21 +11,19 @@ module.exports = (pool) => {
   //Interacts with API in order to grab users top tracks up to 50
   router.get('/', async (req, res) => {
 
-    const topTracks = []
-    await spotifyApi.getMyTopTracks({ limit: 50 })
-      .then(data => {
-        data.body.items.forEach(song => {
-          topTracks.push({ name: song.name, playCount: Math.floor(Math.random() * 400), image: song.album.images[1].url })
-        })
-        const resultTracks = topTracks.sort((a, b) => b.playCount - a.playCount)
-        res.json(resultTracks)
+    try {
+      const topTracks = []
+      const data = await spotifyApi.getMyTopTracks({ limit: 50 });
+      data.body.items.forEach(song => {
+        topTracks.push({ name: song.name, playCount: Math.floor(Math.random() * 400), image: song.album.images[1].url })
       })
-      .catch(err => {
-        if (err.body.error.message === 'No token provided') {
-          return res.redirect('/login')
-        }
-        res.sendStatus(500)
-      })
+      const resultTracks = topTracks.sort((a, b) => b.playCount - a.playCount)
+      return res.json(resultTracks)
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500)
+    }
+
   })
 
   return router

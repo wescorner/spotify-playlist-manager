@@ -20,7 +20,7 @@ export default function Navbar() {
       description: category.description,
       title: category.name,
       totalPlaylists: category.count,
-      link: "/category/" + category.id,
+      link: "/category-page/" + category.id,
     };
   });
 

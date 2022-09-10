@@ -18,10 +18,12 @@ export default function Category() {
     axios.get(`/category/${id}`).then((res) => {
       setCategory(res.data);
     });
-  }, [setCategory]);
+  }, [id, setCategory, modalShow]);
 
   const playlistItems = category.map((item, key) => {
     const args = {
+      id: item.playlist_id,
+      categoryid: id,
       title: item.playlist_name,
       description: item.playlist_desc,
       totalTracks: item.total_tracks,
@@ -77,6 +79,9 @@ export default function Category() {
           categoryid={id}
           show={modalShow}
           onHide={() => {
+            setModalShow(false);
+          }}
+          onAdd={() => {
             setModalShow(false);
           }}
         />

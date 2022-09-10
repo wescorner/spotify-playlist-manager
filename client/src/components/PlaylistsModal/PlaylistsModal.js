@@ -9,7 +9,7 @@ export default function PlaylistsModal(props) {
 
   useEffect(() => {
     axios
-      .get("/playlist/all")
+      .get(`/playlist/all`)
       .then((res) => {
         setPlaylists(res.data);
       })
@@ -30,6 +30,7 @@ export default function PlaylistsModal(props) {
         playlist.images.length > 0
           ? playlist.images[0].url
           : "https://community.spotify.com/t5/image/serverpage/image-id/55829iC2AD64ADB887E2A5/image-size/large?v=v2&px=999",
+      onAdd: props.onAdd
     };
     return <PlaylistModalCard className="playlistItem" key={key} {...args} />;
   });

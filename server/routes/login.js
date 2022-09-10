@@ -27,50 +27,46 @@ module.exports = (pool) => {
 
   //Sets access token and refresh token after verification of spotify credentials
   router.get("/callback", async (req, res) => {
-    const { code } = req.query;
-    try {
+    try{
+      const { code } = req.query;
+      const profileInfo = [];
+      const userPlaylists = [];
+      //Inserts user details into database if they don't already exist
       const data = await spotifyApi.authorizationCodeGrant(code);
       const { access_token, refresh_token } = data.body;
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
+      const { body: { images, display_name, email, id } } = await spotifyApi.getMe();
+      profileInfo.push(images[0].url, display_name, email.toLowerCase(), id);
+      const {rows: userRows} = await pool.query(`SELECT spotify_id FROM USERS`);
+      const userExists = userRows.some((user) => user.spotify_id === profileInfo[3]);
+      if (!userExists) {
+        await  pool.query(
+          `INSERT INTO users (image, name, email, spotify_id) VALUES ($1, $2, $3, $4)`,
+          profileInfo
+        );
+      }
 
-      //Inserts user details into database if they don't already exist
-      spotifyApi
-        .getMe()
-        .then(({ body: { images, display_name, email, id } }) => {
-          const profileInfo = [];
-          profileInfo.push(images[0].url, display_name, email.toLowerCase(), id);
-          return pool.query(`SELECT spotify_id FROM USERS`).then((data) => {
-            const userExists = data.rows.find((user) => user.spotify_id === profileInfo[3]);
-            if (userExists === undefined) {
-              return pool.query(
-                `INSERT INTO users (image, name, email, spotify_id) VALUES ($1, $2, $3, $4)`,
-                profileInfo
-              );
-            }
-          });
-        })
-        .then(() => {
-          const userPlaylists = [];
-          spotifyApi.getUserPlaylists({ limit: 50 }).then((data) => {
-            data.body.items.forEach((p) => {
-              //p represents playlist item
-              userPlaylists.push({
-                name: p.name,
-                id: p.id,
-                description: p.description,
-                image: p.images[0]?.url,
-                owner: p.owner.display_name,
-                tracks: { count: p.tracks.total, href: p.tracks.href },
-              });
-            });
-            storePlaylists(userPlaylists);
-          });
-        })
-        .then(() => res.redirect("http://localhost:3000/dashboard"));
-    } catch (err) {
-      res.send(err);
+      const {body: {items: playlists}} = await spotifyApi.getUserPlaylists({ limit: 50 });
+      playlists.forEach((p) => {
+        //p represents playlist item
+        userPlaylists.push({
+          name: p.name,
+          id: p.id,
+          description: p.description,
+          image: p.images[0]?.url,
+          owner: p.owner.display_name,
+          tracks: { count: p.tracks.total, href: p.tracks.href },
+        });
+      })
+      await storePlaylists(userPlaylists);
+      return res.redirect("http://localhost:3000/dashboard")
+    }catch(err){
+      console.log(err);
+      res.sendStatus(500);
     }
+
+
   });
 
   router.get("/profile", (req, res) => {
@@ -78,6 +74,10 @@ module.exports = (pool) => {
       const profileInfo = [];
       profileInfo.push(images[0].url, display_name, email.toLowerCase(), id);
       res.send(profileInfo);
+    })
+    .catch((error) => {
+      console.log(error)
+      return res.sendStatus(500)
     });
   });
 
