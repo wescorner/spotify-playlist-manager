@@ -41,6 +41,7 @@ TODO:
 -Only display profile/logout buttons if user is logged in
 -Make delete button on playlists delete the playlist
 -Implement edit/delete buttons on categories
+-Create edit category/playlist page
 
 
 completed..
