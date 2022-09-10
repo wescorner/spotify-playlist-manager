@@ -16,11 +16,11 @@ const {
 module.exports = (pool) => {
   //get all users playlists
   router.get("/all", async (req, res) => {
-    try{
-      const {body: {id}} = await spotifyApi.getMe();
-      const {body: {items: playlists}} = await spotifyApi.getUserPlaylists(id);
+    try {
+      const { body: { id } } = await spotifyApi.getMe();
+      const { body: { items: playlists } } = await spotifyApi.getUserPlaylists(id);
       return res.send(playlists)
-    }catch(err){
+    } catch (err) {
       console.log(err)
       return res.sendStatus(500)
     }
@@ -50,16 +50,18 @@ module.exports = (pool) => {
             album: song.track.album.name,
             releaseDate: song.track.album.release_date,
             duration: duration,
+            playCount: Math.floor(Math.random() * 400),
           });
         });
-        return res.json(songResult);
+        const resultTracks = songResult.sort((a, b) => b.playCount - a.playCount)
+        return res.json(resultTracks)
       }).catch((error) => {
         console.log(error)
         return res.sendStatus(500)
       });
   });
   router.post("/create", async (req, res) => {
-    try{
+    try {
       const playlistName = req.body.name;
       const description = req.body.description;
       const response = await spotifyApi.createPlaylist(playlistName, { description });
@@ -78,7 +80,7 @@ module.exports = (pool) => {
       const playlistsData = await getUserPlaylists(userId);
 
       res.send(playlistsData);
-    }catch(err){
+    } catch (err) {
       console.log(err)
       res.sendStatus(500)
     }
@@ -86,7 +88,7 @@ module.exports = (pool) => {
   });
 
   router.post("/search", async (req, res) => {
-    try{
+    try {
       const searchQuery = req.body.searchQuery;
       const types = ["track"];
       const searchResult = await spotifyApi.search(searchQuery, types, { limit: 10 });
@@ -104,14 +106,14 @@ module.exports = (pool) => {
         tracks.push(track);
       });
       res.send(tracks);
-    }catch(err){
+    } catch (err) {
       console.log(err);
       res.sendStatus(500)
     }
-});
+  });
 
-  router.delete("/:id", async(req, res) => {
-    try{
+  router.delete("/:id", async (req, res) => {
+    try {
       const playlistId = req.params.id;
       const categoryId = req.body.category;
       await pool.query(
@@ -121,11 +123,11 @@ module.exports = (pool) => {
         [playlistId, categoryId]
       );
       res.sendStatus(200)
-    }catch(err){
+    } catch (err) {
       console.log(err);
       res.sendStatus(500)
     }
-    
+
   });
 
   router.post("/add-to-category", (req, res) => {
@@ -153,7 +155,7 @@ module.exports = (pool) => {
   // Its a post route to add songs to an existing playlist
   // It receives playlist_id and track id in the body of the request
   router.post("/:id", async (req, res) => {
-    try{
+    try {
       const playlistId = req.body.playlistId;
       const track = req.body.track;
 
@@ -187,23 +189,23 @@ module.exports = (pool) => {
         });
       });
       res.send(playlist);
-    }catch(err){
+    } catch (err) {
       console.log(err);
       res.sendStatus(500);
     }
   });
 
-  router.delete("/:id", async( req, res) => {
-    try{
+  router.delete("/:id", async (req, res) => {
+    try {
       const playlistId = req.params.id;
       await pool.query(
         `
       DELETE FROM categories_playlists 
       WHERE playlist_id = $1`,
-          [playlistId]
+        [playlistId]
       );
       res.sendStatus(200)
-    }catch(err){
+    } catch (err) {
       console.log(err);
       res.sendStatus(500);
     }

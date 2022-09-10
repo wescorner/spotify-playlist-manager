@@ -10,7 +10,7 @@ module.exports = (pool) => {
 
   //Interacts with API in order to grab users top tracks up to 50
   router.get('/', async (req, res) => {
-    try{
+    try {
       const topTracks = []
       const data = await spotifyApi.getMyTopTracks({ limit: 50 });
       data.body.items.forEach(song => {
@@ -18,7 +18,7 @@ module.exports = (pool) => {
       })
       const resultTracks = topTracks.sort((a, b) => b.playCount - a.playCount)
       return res.json(resultTracks)
-    }catch(err){
+    } catch (err) {
       console.log(err);
       res.sendStatus(500)
     }
