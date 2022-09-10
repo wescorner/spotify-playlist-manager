@@ -17,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" exact element={<Login />} />
         <Route path="/dashboard" exact element={<Dashboard />} />
+        <Route path="/playlists" exact element={<Dashboard />} />
         <Route path="/category" exact element={<Category />} />
         <Route path="/createcategory" exact element={<CreateCategory />} />
         <Route path="/createplaylist" exact element={<CreatePlaylist />} />
