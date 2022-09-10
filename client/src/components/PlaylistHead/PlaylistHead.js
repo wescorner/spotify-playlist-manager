@@ -2,25 +2,24 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import './PlaylistHead.scss'
 
-export default function PlaylistHead({playlistName, description, image, owner, totalSongs, onPlay, onDashboard, onDelete}) {
+export default function PlaylistHead({name, description, image, owner, totalSongs, onPlay, onDashboard}) {
   return (
     <Card className='playlist-head'>
-      <Card style={{ width: '18rem' }}>
-        <Card.Body>
+      <Card className='playlist-image-container' style={{ width: '18rem' }}>
+        <Card.Body className={'playlist-image'}>
           <img src={image} width="100%"/>   
         </Card.Body>
       </Card>
       <Card.Body>
-          <Card.Title>{playlistName}</Card.Title>
+          <Card.Title>{name}</Card.Title>
           <Card.Text>
             {description}
           </Card.Text>
           <Card.Text>
             {owner} | {totalSongs}
           </Card.Text>
-          <Button onClick={onPlay} variant="success">Play in Spotify</Button>
-          <Button onClick={onDashboard} variant="info">Dashboard</Button>
-          <Button onClick={onDelete} variant="danger">Delete</Button>
+          <Button onClick={onPlay} variant="success" style={{ marginRight: "10px"}}>Play in Spotify</Button>
+          <Button onClick={onDashboard} variant="info" style={{ marginRight: "10px"}}>Dashboard</Button>
         </Card.Body>
     </Card>
     
