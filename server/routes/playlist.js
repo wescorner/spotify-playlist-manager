@@ -138,5 +138,23 @@ module.exports = (pool) => {
       [playlistId]
     );
   });
+
+  router.post("/add/:id", (req, res) => {
+    const playlistId = req.params.id;
+    const categoryId = req.body.category;
+    return pool
+      .query(
+        `
+    INSERT INTO categories_playlists (playlist_id, category_id) VALUES ($1. $2)`,
+        [playlistId, categoryId]
+      )
+      .then((res) => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
   return router;
 };

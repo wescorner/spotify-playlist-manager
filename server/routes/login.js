@@ -80,5 +80,6 @@ module.exports = (pool) => {
       res.send(profileInfo);
     });
   });
+
   return router;
 };

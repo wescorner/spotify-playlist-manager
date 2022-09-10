@@ -82,7 +82,7 @@ export default function CreateCategory() {
                 />
               </Form.Group>
               <Button type="submit" variant="submit">
-                Submit
+                Create
               </Button>
             </Form>
           </Card.Body>
