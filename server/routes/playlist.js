@@ -140,19 +140,25 @@ module.exports = (pool) => {
   });
 
   router.post("/add/:id", (req, res) => {
-    const playlistId = req.params.id;
-    const categoryId = req.body.category;
     return pool
-      .query(
-        `
-    INSERT INTO categories_playlists (playlist_id, category_id) VALUES ($1. $2)`,
-        [playlistId, categoryId]
-      )
-      .then((res) => {
-        res.sendStatus(200);
-      })
-      .catch((err) => {
-        console.log(err);
+      .query(`SELECT id FROM playlists WHERE spotify_id = $1`, [req.params.id])
+      .then((data) => {
+        const playlistId = data.rows[0].id;
+        const categoryId = req.body.category;
+        console.log("playlistID:", playlistId);
+        console.log("categoryID:", categoryId);
+        return pool
+          .query(
+            `
+          INSERT INTO categories_playlists (playlist_id, category_id) VALUES ($1, $2)`,
+            [playlistId, categoryId]
+          )
+          .then((data) => {
+            res.sendStatus(200);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       });
   });
 

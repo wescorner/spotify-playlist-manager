@@ -9,14 +9,6 @@ import "./Category.scss";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const args = {
-  title: "Chill Vibes Playlist",
-  description: "A cool playlist for just vibing and jamming out",
-  totalTracks: 21,
-  image:
-    "https://www.liveabout.com/thmb/pwO4o_iDrZRTmmhs7eOfD25Qoqw=/1500x1125/smart/filters:no_upscale()/pop-music-57bce3863df78c87634ea806.jpg",
-};
-
 export default function Category() {
   let { id } = useParams();
   const [modalShow, setModalShow] = useState(false);
@@ -36,7 +28,11 @@ export default function Category() {
       totalTracks: item.total_tracks,
       image: item.playlist_img,
     };
-    return <PlaylistCard key={key} className="playlistItem" {...args} />;
+    if (item.playlist_name) {
+      return <PlaylistCard key={key} className="playlistItem" {...args} />;
+    } else {
+      return "";
+    }
   });
 
   return (
@@ -47,7 +43,15 @@ export default function Category() {
       <div className="content">
         <Header />
         <div className="categoryHeader">
-          <img id="categoryImage" src={category[0] && category[0].category_img} alt="category" />
+          <img
+            id="categoryImage"
+            src={
+              category[0] && category[0].category_img
+                ? category[0].category_img
+                : "https://community.spotify.com/t5/image/serverpage/image-id/55829iC2AD64ADB887E2A5/image-size/large?v=v2&px=999"
+            }
+            alt="category"
+          />
           <div className="categoryInfo">
             <h1 id="categoryTitle">{category[0] && category[0].category_name}</h1>
             <p id="categoryDescription">{category[0] && category[0].category_desc}</p>
@@ -66,17 +70,8 @@ export default function Category() {
           <h1>Playlists</h1>
           <AddCircleIcon className="addIcon" onClick={() => setModalShow(true)} />
         </div>
-        <PlaylistsModal show={modalShow} onHide={() => setModalShow(false)} />
-        <div className="playlists">
-          {playlistItems}
-          {/*           
-          <PlaylistCard className="playlistItem" {...args} />
-          <PlaylistCard className="playlistItem" {...args} />
-          <PlaylistCard className="playlistItem" {...args} />
-          <PlaylistCard className="playlistItem" {...args} />
-          <PlaylistCard className="playlistItem" {...args} />
-          <PlaylistCard className="playlistItem" {...args} /> */}
-        </div>
+        <PlaylistsModal categoryid={id} show={modalShow} onHide={() => setModalShow(false)} />
+        <div className="playlists">{playlistItems}</div>
       </div>
     </div>
   );
