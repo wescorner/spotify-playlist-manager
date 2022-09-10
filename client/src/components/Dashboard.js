@@ -32,6 +32,7 @@ export default function Dashboard() {
         description={category.description}
         title={category.name}
         totalPlaylists={category.count}
+        onClick={e => console.log(category.id)}
       />
     );
   });

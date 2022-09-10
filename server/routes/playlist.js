@@ -52,7 +52,7 @@ module.exports = (pool) => {
   router.post('/search', async (req, res) => {
     const searchQuery = req.body.searchQuery;
     const types = ['track']
-    const searchResult = await spotifyApi.search(searchQuery, types, {limit:10})
+    const searchResult = await spotifyApi.search(searchQuery, types, { limit: 10 })
 
     const tracks = [];
     searchResult.body.tracks.items.map((item) => {
@@ -83,11 +83,11 @@ module.exports = (pool) => {
     await spotifyApi.addTracksToPlaylist(spotifyId, track)
     const playlistData = await spotifyApi.getPlaylist(spotifyId)
     const playlistUpdatedData = [
-      playlistData.body.images[0].url, 
-      playlistData.body.owner.display_name, 
-      playlistData.body.name, 
-      playlistData.body.description, 
-      playlistData.body.tracks.total, 
+      playlistData.body.images[0].url,
+      playlistData.body.owner.display_name,
+      playlistData.body.name,
+      playlistData.body.description,
+      playlistData.body.tracks.total,
       playlistData.body.tracks.href
     ]
     await updatePlaylist(playlistId, playlistUpdatedData)
@@ -95,14 +95,15 @@ module.exports = (pool) => {
     playlistData.body.tracks.items.map((song) => {
       let duration = convertMsToMinutesSeconds(song.track.duration_ms)
       playlist.push(
-        { image: song.track.album.images[2].url, 
-          name: song.track.name, 
+        {
+          image: song.track.album.images[2].url,
+          name: song.track.name,
           album: song.track.album.name,
-          artist: song.track.album.artists[0].name, 
-          releaseDate: song.track.album.release_date, 
-          duration: duration 
+          artist: song.track.album.artists[0].name,
+          releaseDate: song.track.album.release_date,
+          duration: duration
         })
-    }) 
+    })
     res.send(playlist)
   })
 
@@ -114,5 +115,19 @@ module.exports = (pool) => {
       [playlistId]
     )
   })
+
+  router.post('/add/:id', (req, res) => {
+    const playlistId = req.params.id
+    const categoryId = req.body.category
+    return pool.query(`
+    INSERT INTO categories_playlists (playlist_id, category_id) VALUES ($1. $2)`, [playlistId, categoryId])
+      .then(res => {
+        res.sendStatus(200)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
+
   return router
 };

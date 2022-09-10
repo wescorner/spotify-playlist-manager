@@ -62,7 +62,7 @@ export default function CreateCategory() {
                 <Form.Control as="textarea" value={description} onChange={e => { setDescription(e.target.value) }} rows={3} size="lg" />
               </Form.Group>
               <Button type="submit" variant="submit">
-                Submit
+                Create
               </Button>
             </Form>
           </Card.Body>
