@@ -4,14 +4,6 @@ import "./PlaylistModal.scss";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const args = {
-  title: "Chill Vibes Playlist",
-  description: "A cool playlist for just vibing and jamming out",
-  totalTracks: 21,
-  image:
-    "https://www.liveabout.com/thmb/pwO4o_iDrZRTmmhs7eOfD25Qoqw=/1500x1125/smart/filters:no_upscale()/pop-music-57bce3863df78c87634ea806.jpg",
-};
-
 export default function PlaylistsModal(props) {
   const [playlists, setPlaylists] = useState([]);
 
@@ -19,8 +11,6 @@ export default function PlaylistsModal(props) {
     axios
       .get("/playlist/all")
       .then((res) => {
-        console.log(res);
-        console.log("setting playlists to: " + res);
         setPlaylists(res.data);
       })
       .catch((err) => {
