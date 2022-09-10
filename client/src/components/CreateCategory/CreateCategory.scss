@@ -4,6 +4,7 @@
   width: 75%;
   left: 12.5%;
   margin-top: 5%;
+  height: 500px;
 
   label{
     font-size: 1.25em;
@@ -30,4 +31,8 @@
 
 .createCardCancel:hover {
   cursor: pointer;
+}
+
+.createCardBody{
+  overflow-y: auto;
 }

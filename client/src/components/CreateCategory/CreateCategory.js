@@ -45,7 +45,7 @@ export default function CreateCategory() {
             <h1>Create Category</h1>
             <CancelIcon onClick={refreshToDashboard} className="svg_icons createCardCancel" />
           </Card.Header>
-          <Card.Body>
+          <Card.Body className={"createCardBody"}>
             <Form className="createForm" onSubmit={handleSubmit}>
               <Form.Group className="mb-5">
                 <Form.Label>Category Name</Form.Label>

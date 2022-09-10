@@ -41,8 +41,8 @@ module.exports = (pool) => {
       )
       .then((data) => {
         return spotifyApi.getPlaylist(data.rows[0].spotify_id);
-      }).then((data) => {
-        data.body.tracks.items.forEach((song) => {
+      }).then(({body:{name, description, tracks, external_urls, images, owner}}) => {
+        tracks.items.forEach((song) => {
           let duration = convertMsToMinutesSeconds(song.track.duration_ms);
           songResult.push({
             image: song.track.album.images[2].url,
@@ -54,7 +54,14 @@ module.exports = (pool) => {
           });
         });
         const resultTracks = songResult.sort((a, b) => b.playCount - a.playCount)
-        return res.json(resultTracks)
+        return res.json({
+          name,
+          description,
+          image: images[0]?.url,
+          owner: owner.display_name,
+          spotifyURL: external_urls.spotify,
+          tracks: resultTracks
+        })
       }).catch((error) => {
         console.log(error)
         return res.sendStatus(500)
