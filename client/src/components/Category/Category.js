@@ -71,6 +71,9 @@ export default function Category() {
           </div>
         </div>
         <EditCategoryModal
+          name={category[0] && category[0].category_name}
+          description={category[0] && category[0].category_desc}
+          image={category[0] && category[0].category_img}
           show={editModalShow}
           onHide={() => {
             setEditModalShow(false);
