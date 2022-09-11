@@ -14,7 +14,7 @@ module.exports = (pool) => {
       const topTracks = []
       const data = await spotifyApi.getMyTopTracks({ limit: 50 });
       data.body.items.forEach(song => {
-        topTracks.push({ name: song.name, playCount: Math.floor(Math.random() * 400), image: song.album.images[1].url })
+        topTracks.push(song.id)
       })
       const resultTracks = topTracks.sort((a, b) => b.playCount - a.playCount)
       return res.json(resultTracks)
