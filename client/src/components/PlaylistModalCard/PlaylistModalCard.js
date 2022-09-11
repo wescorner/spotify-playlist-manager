@@ -1,14 +1,20 @@
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import axios from "axios";
+import { useState } from "react";
+import { Modal, Alert } from "react-bootstrap";
 
 export default function PlaylistModalCard({ categoryid, id, image, title }) {
+  const [show, setShow] = useState(false);
   const handleAdd = function () {
     axios
       .post(`/playlist/add-to-category`, {
         playlistId: id,
         categoryId: categoryid,
       })
-      .then(() => {});
+      .then(() => {
+        setShow(true);
+        setTimeout(() => setShow(false), 100);
+      });
   };
   return (
     <div className="playlistCard">
@@ -21,6 +27,9 @@ export default function PlaylistModalCard({ categoryid, id, image, title }) {
         }
         alt="icon"
       />
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Alert variant="info">Playlist Added</Alert>
+      </Modal>
       <p className="playlistName">{title}</p>
       <div className="addIcon">
         <AddCircleIcon onClick={handleAdd} />

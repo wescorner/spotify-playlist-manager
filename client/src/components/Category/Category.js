@@ -94,8 +94,6 @@ export default function Category() {
           <AddCircleIcon className="addIcon" onClick={() => setPlaylistModalShow(true)} />
         </div>
         <PlaylistsModal
-          category={category}
-          setCategory={setCategory}
           categoryid={id}
           show={playlistModalShow}
           onHide={() => {
