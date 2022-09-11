@@ -1,8 +1,16 @@
-.category-card-img {
-  height: 70%;
-  object-fit:contain; 
+.category-card-img { 
+  height: 55%;
+  width: 75%;
+  object-fit: cover;
+  position: relative;
+  top: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 10%;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .categoryCard {
-  height: 70%;
+  height: 75%;
 }

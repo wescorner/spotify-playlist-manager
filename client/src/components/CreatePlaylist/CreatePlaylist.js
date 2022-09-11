@@ -37,7 +37,7 @@ export default function CreatePlaylist() {
       </div>
       <div className="content">
         <Header />
-        <Card className="createCard">
+        <Card className="createPlaylistCard">
           <Card.Header className="createCardHead">
             <h1>Create Playlist</h1>
             <CancelIcon onClick={refreshToDashboard} className="svg_icons createCardCancel" />

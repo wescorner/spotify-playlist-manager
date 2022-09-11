@@ -40,7 +40,7 @@ export default function CreateCategory() {
       </div>
       <div className="content">
         <Header />
-        <Card className="createCard">
+        <Card className="createCategoryCard">
           <Card.Header className="createCardHead">
             <h1>Create Category</h1>
             <CancelIcon onClick={refreshToDashboard} className="svg_icons createCardCancel" />
