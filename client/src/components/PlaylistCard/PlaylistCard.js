@@ -1,19 +1,12 @@
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./PlaylistCard.scss";
-export default function PlaylistCard({
-  id,
-  categoryid,
-  image,
-  title,
-  description,
-  totalTracks,
-}) {
+export default function PlaylistCard({ id, categoryid, image, title, description, totalTracks }) {
   const navigate = useNavigate();
 
-  const onClick = () => navigate(`/playlist/${id}`)
+  const onClick = () => navigate(`/playlist/${id}`);
   const handleDelete = function (e) {
     console.log("playlistID:", id);
     console.log("categoryID:", categoryid);
@@ -29,7 +22,15 @@ export default function PlaylistCard({
 
   return (
     <div className="playlistCard" onClick={onClick}>
-      <img className="playlistIcon" src={image} alt="icon" />
+      <img
+        className="playlistIcon"
+        src={
+          image
+            ? image
+            : "https://community.spotify.com/t5/image/serverpage/image-id/55829iC2AD64ADB887E2A5/image-size/large?v=v2&px=999"
+        }
+        alt="icon"
+      />
       <p className="playlistName">{title}</p>
       <div className="deleteIcon">
         <DeleteIcon onClick={handleDelete} />
