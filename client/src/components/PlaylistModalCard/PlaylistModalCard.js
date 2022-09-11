@@ -40,7 +40,7 @@ export default function PlaylistModalCard({ categoryid, id, image, title }) {
       <Modal show={successShow} onHide={() => setSuccessShow(false)}>
         <Alert variant="info">Playlist Added</Alert>
       </Modal>
-      <Modal show={successShow} onHide={() => setSuccessShow(false)}>
+      <Modal show={failShow} onHide={() => setFailShow(false)}>
         <Alert variant="danger">Playlist Already In Category!</Alert>
       </Modal>
     </div>

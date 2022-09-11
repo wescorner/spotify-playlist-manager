@@ -101,7 +101,6 @@ export default function Category() {
           show={deleteShow}
           onHide={() => {
             setDeleteShow(false);
-            forceUpdate();
           }}
         >
           <Alert variant="info">Playlist Deleted</Alert>
