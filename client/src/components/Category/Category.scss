@@ -16,6 +16,7 @@
   #categoryImage {
     width: 15rem;
     height: 15rem;
+    object-fit: cover;
   }
 
   #categoryTitle {
@@ -123,7 +124,7 @@
 }
 
 .btn-edit {
-  background-color: #1FDF64;
+  background-color: white;
   border-radius: 20px;
   width: 7em;
 }
@@ -137,4 +138,8 @@
 
 .mainDivider {
   color: white;
+  margin-top: 3%;
+  width: 90%;
+  position: relative;
+  left: 5%;
 }

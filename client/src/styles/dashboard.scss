@@ -45,9 +45,8 @@ body{
   color: white;
   display: flex;
   flex-direction: row;
-  margin-left: 75px;
   margin: 3%;
-  margin-left: 7%;
+  margin-left: 9%;
 
   a {
     align-self: center;
@@ -67,4 +66,9 @@ body{
 
 body {
   margin: 0;
+}
+
+.form-control {
+  background-color:#2E2E2E;
+  color: white;
 }

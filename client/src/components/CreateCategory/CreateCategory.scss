@@ -1,11 +1,10 @@
-.createCard {
+.createCategoryCard {
   background-color: #2E2E2E;
   color: white;
   width: 75%;
-  height: 80%;
+  height: 70%;
   left: 12.5%;
   margin-top: 5%;
-  height: 500px;
 
   label{
     font-size: 1.25em;
@@ -22,6 +21,7 @@
   position: relative;
   width: 6em;
   height: 3em;
+  font-weight: 500;
 }
 
 .createCardHead{
