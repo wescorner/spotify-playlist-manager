@@ -1,9 +1,11 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import "./EditCategoryModal.scss";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function EditCategoryModal(props) {
-  console.log("props:", props);
+  const navigate = useNavigate();
   const [name, setName] = useState(props.name);
   const [image, setImage] = useState(props.image);
   const [description, setDescription] = useState(props.description);
@@ -16,7 +18,16 @@ export default function EditCategoryModal(props) {
 
   const handleSubmit = function (e) {
     e.preventDefault();
-    //
+    axios
+      .put(`/category/${props.categoryid}`, {
+        name: name,
+        image: image,
+        description: description,
+      })
+      .then(() => {
+        window.location.reload();
+        // navigate("/dashboard");
+      });
   };
 
   return (

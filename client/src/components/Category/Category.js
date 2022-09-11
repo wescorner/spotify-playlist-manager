@@ -76,6 +76,7 @@ export default function Category() {
           </div>
         </div>
         <EditCategoryModal
+          categoryid={id}
           name={category[0] && category[0].category_name}
           description={category[0] && category[0].category_desc}
           image={category[0] && category[0].category_img}
