@@ -32,8 +32,10 @@ delete requests
 
 TODO:
 -Make page for displaying all playlists
+-Protect against users accessing pages when not logged in
 -Only display profile/logout buttons if user is logged in
 -Create edit playlist page
+-Fix category card formatting issue and picture size
 
 
 completed..

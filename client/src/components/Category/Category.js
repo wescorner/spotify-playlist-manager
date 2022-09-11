@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useReducer } from "react";
 import Navbar from "../Navbar/Navbar";
 import Header from "../Header/Header";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -9,14 +9,16 @@ import "./Category.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import EditCategoryModal from "../EditCategoryModal/EditCategoryModal";
+import { Modal, Alert } from "react-bootstrap";
 
 export default function Category() {
   let { id } = useParams();
   const navigate = useNavigate();
   const [playlistModalShow, setPlaylistModalShow] = useState(false);
   const [editModalShow, setEditModalShow] = useState(false);
+  const [deleteShow, setDeleteShow] = useState(false);
   const [category, setCategory] = useState([]);
-  const [, setUpdate] = useState();
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
     axios.get(`/category/${id}`).then((res) => {
@@ -28,8 +30,6 @@ export default function Category() {
     axios.delete(`/category/${id}`).then(() => navigate("/dashboard"));
   };
 
-  const forceUpdate = useCallback(() => setUpdate({}));
-
   const playlistItems = category.map((item, key) => {
     const args = {
       id: item.playlist_id,
@@ -40,6 +40,8 @@ export default function Category() {
       image: item.playlist_img
         ? item.playlist_img
         : "https://community.spotify.com/t5/image/serverpage/image-id/55829iC2AD64ADB887E2A5/image-size/large?v=v2&px=999",
+      setDeleteShow: setDeleteShow,
+      forceUpdate: forceUpdate,
     };
     if (item.playlist_name) {
       return <PlaylistCard key={key} className="playlistItem" {...args} />;
@@ -93,15 +95,20 @@ export default function Category() {
           <h1>Playlists</h1>
           <AddCircleIcon className="addIcon" onClick={() => setPlaylistModalShow(true)} />
         </div>
+        <Modal
+          className="deleteModal"
+          show={deleteShow}
+          onExit={() => {
+            setDeleteShow(false);
+            forceUpdate();
+          }}
+        >
+          <Alert variant="info">Playlist Deleted</Alert>
+        </Modal>
         <PlaylistsModal
-          category={category}
-          setCategory={setCategory}
           categoryid={id}
           show={playlistModalShow}
-          onHide={() => {
-            forceUpdate();
-            setPlaylistModalShow(false);
-          }}
+          onHide={() => setPlaylistModalShow(false)}
         />
         <div className="playlists">{playlistItems}</div>
       </div>

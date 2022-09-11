@@ -1,19 +1,21 @@
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 import "./PlaylistCard.scss";
-export default function PlaylistCard({ id, categoryid, image, title }) {
-  const navigate = useNavigate();
 
+export default function PlaylistCard({ id, categoryid, image, title, setDeleteShow }) {
+  const navigate = useNavigate();
   const onClick = () => navigate(`/playlist/${id}`);
+
   const handleDelete = function (e) {
     axios
       .delete(`/playlist/${id}`, {
         data: { category: categoryid },
       })
       .then(() => {
-        navigate(`/category-page/${categoryid}`);
+        setDeleteShow(true);
+        setTimeout(() => setDeleteShow(false), 1000);
+        navigate(0);
       });
     e.stopPropagation();
   };

@@ -17,14 +17,17 @@ module.exports = (pool) => {
   //get all users playlists
   router.get("/all", async (req, res) => {
     try {
-      const { body: { id } } = await spotifyApi.getMe();
-      const { body: { items: playlists } } = await spotifyApi.getUserPlaylists(id);
-      return res.send(playlists)
+      const {
+        body: { id },
+      } = await spotifyApi.getMe();
+      const {
+        body: { items: playlists },
+      } = await spotifyApi.getUserPlaylists(id);
+      return res.send(playlists);
     } catch (err) {
-      console.log(err)
-      return res.sendStatus(500)
+      console.log(err);
+      return res.sendStatus(500);
     }
-
   });
 
   // receives playlist_id in req
@@ -41,7 +44,8 @@ module.exports = (pool) => {
       )
       .then((data) => {
         return spotifyApi.getPlaylist(data.rows[0].spotify_id);
-      }).then(({body:{name, description, tracks, external_urls, images, owner}}) => {
+      })
+      .then(({ body: { name, description, tracks, external_urls, images, owner } }) => {
         tracks.items.forEach((song) => {
           let duration = convertMsToMinutesSeconds(song.track.duration_ms);
           songResult.push({
@@ -53,18 +57,19 @@ module.exports = (pool) => {
             playCount: Math.floor(Math.random() * 400),
           });
         });
-        const resultTracks = songResult.sort((a, b) => b.playCount - a.playCount)
+        const resultTracks = songResult.sort((a, b) => b.playCount - a.playCount);
         return res.json({
           name,
           description,
           image: images[0]?.url,
           owner: owner.display_name,
           spotifyURL: external_urls.spotify,
-          tracks: resultTracks
-        })
-      }).catch((error) => {
-        console.log(error)
-        return res.sendStatus(500)
+          tracks: resultTracks,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.sendStatus(500);
       });
   });
   router.post("/create", async (req, res) => {
@@ -88,10 +93,9 @@ module.exports = (pool) => {
 
       res.send(playlistsData);
     } catch (err) {
-      console.log(err)
-      res.sendStatus(500)
+      console.log(err);
+      res.sendStatus(500);
     }
-
   });
 
   router.post("/search", async (req, res) => {
@@ -115,7 +119,7 @@ module.exports = (pool) => {
       res.send(tracks);
     } catch (err) {
       console.log(err);
-      res.sendStatus(500)
+      res.sendStatus(500);
     }
   });
 
@@ -129,12 +133,11 @@ module.exports = (pool) => {
       WHERE playlist_id = $1 AND category_id = $2`,
         [playlistId, categoryId]
       );
-      res.sendStatus(200)
+      res.sendStatus(200);
     } catch (err) {
       console.log(err);
-      res.sendStatus(500)
+      res.sendStatus(500);
     }
-
   });
 
   router.post("/add-to-category", (req, res) => {
@@ -143,19 +146,29 @@ module.exports = (pool) => {
       .then((data) => {
         const playlistId = data.rows[0].id;
         const categoryId = req.body.categoryId;
-        return pool
-          .query(
-            `
-          INSERT INTO categories_playlists (playlist_id, category_id) VALUES ($1, $2)`,
-            [playlistId, categoryId]
-          )
+        return pool.query(
+          `
+          INSERT INTO categories_playlists (playlist_id, category_id) 
+          SELECT $1, $2
+          WHERE NOT EXISTS
+          (
+            SELECT *
+            FROM categories_playlists
+            WHERE playlist_id = $1 AND category_id = $2
+          )`,
+          [playlistId, categoryId]
+        );
       })
       .then((data) => {
-        res.sendStatus(200);
+        if (data.rowCount === 0) {
+          res.sendStatus(500);
+        } else {
+          res.sendStatus(200);
+        }
       })
       .catch((err) => {
         console.log(err);
-        res.sendStatus(500)
+        res.sendStatus(500);
       });
   });
 
@@ -211,15 +224,12 @@ module.exports = (pool) => {
       WHERE playlist_id = $1`,
         [playlistId]
       );
-      res.sendStatus(200)
+      res.sendStatus(200);
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
     }
-
   });
-
-
 
   return router;
 };
