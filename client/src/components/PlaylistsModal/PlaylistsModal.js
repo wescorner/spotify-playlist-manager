@@ -20,8 +20,6 @@ export default function PlaylistsModal(props) {
 
   const playlistItems = playlists.map((playlist, key) => {
     const args = {
-      category: props.category,
-      setCategory: props.setCategory,
       categoryid: props.categoryid,
       id: playlist.id,
       title: playlist.name,
@@ -30,7 +28,6 @@ export default function PlaylistsModal(props) {
         playlist.images.length > 0
           ? playlist.images[0].url
           : "https://community.spotify.com/t5/image/serverpage/image-id/55829iC2AD64ADB887E2A5/image-size/large?v=v2&px=999",
-      onAdd: props.onAdd
     };
     return <PlaylistModalCard className="playlistItem" key={key} {...args} />;
   });

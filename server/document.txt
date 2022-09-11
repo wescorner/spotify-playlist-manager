@@ -31,17 +31,9 @@ delete requests
 
 
 TODO:
--GET Request for specific category (/category/:id) that displays all playlists for that category
- as well as category information in header
--Implement ADD button for adding playlists to a category
 -Make page for displaying all playlists
--Make clicking on a category (on the page or on the navbar) send you to that category's page
--Make page for displaying specific playlist
--Make clicking on a playlist send you to that playlist's page
 -Only display profile/logout buttons if user is logged in
--Make delete button on playlists delete the playlist
--Implement edit/delete buttons on categories
--Create edit category/playlist page
+-Create edit playlist page
 
 
 completed..
