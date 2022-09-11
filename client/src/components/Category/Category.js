@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "../Navbar/Navbar";
 import Header from "../Header/Header";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -16,6 +16,7 @@ export default function Category() {
   const [playlistModalShow, setPlaylistModalShow] = useState(false);
   const [editModalShow, setEditModalShow] = useState(false);
   const [category, setCategory] = useState([]);
+  const [, setUpdate] = useState();
 
   useEffect(() => {
     axios.get(`/category/${id}`).then((res) => {
@@ -26,6 +27,8 @@ export default function Category() {
   const onDelete = () => {
     axios.delete(`/category/${id}`).then(() => navigate("/dashboard"));
   };
+
+  const forceUpdate = useCallback(() => setUpdate({}));
 
   const playlistItems = category.map((item, key) => {
     const args = {
@@ -96,9 +99,7 @@ export default function Category() {
           categoryid={id}
           show={playlistModalShow}
           onHide={() => {
-            setPlaylistModalShow(false);
-          }}
-          onAdd={() => {
+            forceUpdate();
             setPlaylistModalShow(false);
           }}
         />

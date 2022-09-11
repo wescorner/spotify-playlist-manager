@@ -1,18 +1,14 @@
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import axios from "axios";
 
-export default function PlaylistModalCard({ category, setCategory, categoryid, id, image, title, onAdd }) {
+export default function PlaylistModalCard({ categoryid, id, image, title }) {
   const handleAdd = function () {
     axios
       .post(`/playlist/add-to-category`, {
         playlistId: id,
         categoryId: categoryid,
       })
-      .then(() => {
-        // window.location.href = `/category/${categoryid}`;
-        setCategory([...category, {}]);
-      });
-    onAdd();
+      .then(() => {});
   };
   return (
     <div className="playlistCard">

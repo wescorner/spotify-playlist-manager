@@ -3,19 +3,17 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import "./PlaylistCard.scss";
-export default function PlaylistCard({ id, categoryid, image, title, description, totalTracks }) {
+export default function PlaylistCard({ id, categoryid, image, title }) {
   const navigate = useNavigate();
 
   const onClick = () => navigate(`/playlist/${id}`);
   const handleDelete = function (e) {
-    console.log("playlistID:", id);
-    console.log("categoryID:", categoryid);
     axios
       .delete(`/playlist/${id}`, {
         data: { category: categoryid },
       })
       .then(() => {
-        window.location.href = `/category-page/${categoryid}`;
+        navigate(`/category-page/${categoryid}`);
       });
     e.stopPropagation();
   };
