@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./PlaylistCard.scss";
 
-export default function PlaylistCard({ id, categoryid, image, title, setDeleteShow }) {
+export default function PlaylistCard({ id, categoryid, image, title, setDeleteShow, hideDeleteIcon }) {
   const navigate = useNavigate();
   const onClick = () => navigate(`/playlist/${id}`);
 
@@ -33,7 +33,7 @@ export default function PlaylistCard({ id, categoryid, image, title, setDeleteSh
       />
       <p className="playlistName">{title}</p>
       <div className="deleteIcon">
-        <DeleteIcon onClick={handleDelete} />
+        {hideDeleteIcon || <DeleteIcon onClick={handleDelete}/>}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import CreateCategory from "./components/CreateCategory/CreateCategory";
 import Stats from "./components/Stats/Stats";
 import CreatePlaylist from "./components/CreatePlaylist/CreatePlaylist";
 import Playlist from "./components/Playlist/Playlist"
+import Playlists from "./components/Playlists/Playlists";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/" exact element={<Login />} />
         <Route path="/dashboard" exact element={<Dashboard />} />
-        <Route path="/playlists" exact element={<Dashboard />} />
+        <Route path="/playlists" exact element={<Playlists />} />
         <Route path="/playlist/:id" exact element={<Playlist />} />
         <Route path="/category-page/" exact element={<Category />} />
         <Route path="/category-page/:id" exact element={<Category />} />

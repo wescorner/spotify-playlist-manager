@@ -30,6 +30,21 @@ module.exports = (pool) => {
     }
   });
 
+  router.get("/all-by-id", async (req, res) => {
+    try {
+      const {
+        body: { id },
+      } = await spotifyApi.getMe();
+      const data = await pool.query(`SELECT id FROM users WHERE spotify_id = $1`, [id])
+      const userId = data.rows[0].id
+      const playlists = await getUserPlaylists(userId)
+      res.send(playlists)
+    } catch (err) {
+      console.log(err);
+      return res.sendStatus(500);
+    }
+  });
+
   // receives playlist_id in req
   // grabs the info for the playlist id from db and sends it as response
   router.get("/:id", (req, res) => {
