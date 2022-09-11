@@ -4,7 +4,9 @@ import { useState } from "react";
 import { Modal, Alert } from "react-bootstrap";
 
 export default function PlaylistModalCard({ categoryid, id, image, title }) {
-  const [show, setShow] = useState(false);
+  const [successShow, setSuccessShow] = useState(false);
+  const [failShow, setFailShow] = useState(false);
+
   const handleAdd = function () {
     axios
       .post(`/playlist/add-to-category`, {
@@ -12,8 +14,12 @@ export default function PlaylistModalCard({ categoryid, id, image, title }) {
         categoryId: categoryid,
       })
       .then(() => {
-        setShow(true);
-        setTimeout(() => setShow(false), 100);
+        setSuccessShow(true);
+        setTimeout(() => setSuccessShow(false), 1000);
+      })
+      .catch(() => {
+        setFailShow(true);
+        setTimeout(() => setFailShow(false), 1000);
       });
   };
   return (
@@ -27,13 +33,16 @@ export default function PlaylistModalCard({ categoryid, id, image, title }) {
         }
         alt="icon"
       />
-      <Modal show={show} onHide={() => setShow(false)}>
-        <Alert variant="info">Playlist Added</Alert>
-      </Modal>
       <p className="playlistName">{title}</p>
       <div className="addIcon">
         <AddCircleIcon onClick={handleAdd} />
       </div>
+      <Modal show={successShow} onHide={() => setSuccessShow(false)}>
+        <Alert variant="info">Playlist Added</Alert>
+      </Modal>
+      <Modal show={successShow} onHide={() => setSuccessShow(false)}>
+        <Alert variant="danger">Playlist Already In Category!</Alert>
+      </Modal>
     </div>
   );
 }

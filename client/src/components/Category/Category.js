@@ -9,12 +9,14 @@ import "./Category.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import EditCategoryModal from "../EditCategoryModal/EditCategoryModal";
+import { Modal, Alert } from "react-bootstrap";
 
 export default function Category() {
   let { id } = useParams();
   const navigate = useNavigate();
   const [playlistModalShow, setPlaylistModalShow] = useState(false);
   const [editModalShow, setEditModalShow] = useState(false);
+  const [deleteShow, setDeleteShow] = useState(false);
   const [category, setCategory] = useState([]);
   const [, setUpdate] = useState();
 
@@ -40,6 +42,7 @@ export default function Category() {
       image: item.playlist_img
         ? item.playlist_img
         : "https://community.spotify.com/t5/image/serverpage/image-id/55829iC2AD64ADB887E2A5/image-size/large?v=v2&px=999",
+      setDeleteShow: setDeleteShow,
     };
     if (item.playlist_name) {
       return <PlaylistCard key={key} className="playlistItem" {...args} />;
@@ -93,6 +96,16 @@ export default function Category() {
           <h1>Playlists</h1>
           <AddCircleIcon className="addIcon" onClick={() => setPlaylistModalShow(true)} />
         </div>
+        <Modal
+          className="deleteModal"
+          show={deleteShow}
+          onHide={() => {
+            setDeleteShow(false);
+            forceUpdate();
+          }}
+        >
+          <Alert variant="info">Playlist Deleted</Alert>
+        </Modal>
         <PlaylistsModal
           categoryid={id}
           show={playlistModalShow}

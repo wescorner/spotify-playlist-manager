@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import "./PlaylistCard.scss";
-export default function PlaylistCard({ id, categoryid, image, title }) {
+export default function PlaylistCard({ id, categoryid, image, title, setDeleteShow }) {
   const navigate = useNavigate();
 
   const onClick = () => navigate(`/playlist/${id}`);
@@ -13,7 +13,9 @@ export default function PlaylistCard({ id, categoryid, image, title }) {
         data: { category: categoryid },
       })
       .then(() => {
-        navigate(`/category-page/${categoryid}`);
+        setDeleteShow(true);
+        setTimeout(() => setDeleteShow(false), 1000);
+        // navigate(`/category-page/${categoryid}`);
       });
     e.stopPropagation();
   };
