@@ -25,7 +25,7 @@ export default function EditCategoryModal(props) {
         description: description,
       })
       .then(() => {
-        navigate("/dashboard");
+        navigate(0);
       });
   };
 
