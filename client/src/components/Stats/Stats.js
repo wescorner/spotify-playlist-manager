@@ -17,6 +17,7 @@ import AudiotrackIcon from "@material-ui/icons/Audiotrack";
 import ReplayIcon from '@material-ui/icons/Replay';
 import axios from "axios";
 
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -32,25 +33,61 @@ export default function Stats() {
   const [dashboardStats, setDashboardStats] = useState({})
   const [favourite, setFavourite] = useState([])
   const [playlistInfo, setPlaylistInfo] = useState([])
+  const [topSongs, setTopSongs] = useState([])
+  const [deleteSongs, setDeleteSongs] = useState([])
 
   useEffect(() => {
     const songList = [];
     const playCountList = [];
+    const idList = [];
+
+    axios.get(`/dashboard`)
+      .then(res => {
+        setTopSongs(res.data)
+      })
+
     axios.get(`/playlist/${id}`)
       .then(res => {
-        setPlaylistInfo([res.data.name, res.data.image])
+        setPlaylistInfo([res.data.albumId, res.data.name, res.data.image])
         res.data.tracks.forEach(track => {
           songList.push(track.name)
           playCountList.push(track.playCount)
+          idList.push(track.id)
         })
         setFavourite([res.data.tracks[0].name, res.data.tracks[0].playCount])
         setDashboardStats(prev => ({
-          ...prev, songList, playCountList
+          ...prev, songList, playCountList, idList
         }))
       })
   }, [])
 
-  console.log(dashboardStats)
+  useEffect(() => {
+    const getDeleteList = () => {
+      const removeSongs = dashboardStats.idList.filter(song => {
+        return !topSongs.includes(song)
+      })
+      setDeleteSongs(removeSongs)
+    }
+
+    setTimeout(getDeleteList, 0)
+  }, [dashboardStats.idList])
+
+  const handleDelete = (e) => {
+    e.preventDefault()
+    axios
+      .delete(`/dashboard/track`, {
+        data: {
+          albumId: playlistInfo[0],
+          deleteSongs
+        },
+      })
+      .then(() => {
+        window.location.reload()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   const options = {
     responsive: true,
@@ -100,7 +137,7 @@ export default function Stats() {
         backgroundColor: 'rgba(30, 215, 96, 0.5)',
       },
     ],
-  };
+  }
 
   return (
 
@@ -112,8 +149,8 @@ export default function Stats() {
         <Header />
         <div className="statsHeader">
           <div>
-            <h1 className='playlistTitle'>{playlistInfo[0]}</h1>
-            <img id="playlistImage" src={playlistInfo[1]} alt="playlistImage" />
+            <h1 className='playlistTitle'>{playlistInfo[1]}</h1>
+            <img id="playlistImage" src={playlistInfo[2]} alt="playlistImage" />
           </div>
           <div className="flexColumn">
             <p><AudiotrackIcon className="svg_icons" />Most Played Song: {favourite[0]}</p>
@@ -121,7 +158,7 @@ export default function Stats() {
           </div>
         </div>
         <div id="buttonContainer">
-          <button type="button" className="btn btn-danger" onClick={() => console.log('clicked')}>DELETE SONGS FROM PLAYLIST THAT ARE NOT PART OF YOUR TOP TRACKS</button>
+          <button type="button" className="btn btn-danger" onClick={handleDelete}>DELETE SONGS FROM PLAYLIST THAT ARE NOT PART OF YOUR TOP TRACKS</button>
         </div>
         <h1 id="graphTitle">Most Listened to Songs</h1>
         <Bar options={options} data={data} />;

@@ -219,42 +219,5 @@ module.exports = (pool) => {
     }
   });
 
-  router.delete("/track", (req, res) => {
-    console.log("yes")
-    // try {
-    //   const tracksResult = [];
-    //   const albumId = req.body.albumId
-    //   const tracks = req.body.deleteSongs
-
-    //   // console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@', req.body.albumId)
-
-    //   // tracks.forEach(track => {
-    //   //   tracksResult.push({ uri: `spotify:track:${track}` })
-    //   // })
-    //   // // spotifyApi.removeTracksFromPlaylist(playlistId, tracks)
-
-    // } catch (err) {
-    //   console.log(err);
-    //   res.sendStatus(500)
-    // }
-  })
-
-
-  router.delete("/:id", async (req, res) => {
-    try {
-      const playlistId = req.params.id;
-      await pool.query(
-        `
-      DELETE FROM categories_playlists 
-      WHERE playlist_id = $1`,
-        [playlistId]
-      );
-      res.sendStatus(200);
-    } catch (err) {
-      console.log(err);
-      res.sendStatus(500);
-    }
-  });
-
   return router;
 };

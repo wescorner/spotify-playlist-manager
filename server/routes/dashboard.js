@@ -16,14 +16,31 @@ module.exports = (pool) => {
       data.body.items.forEach(song => {
         topTracks.push(song.id)
       })
-      const resultTracks = topTracks.sort((a, b) => b.playCount - a.playCount)
-      return res.json(resultTracks)
+      return res.json(topTracks)
     } catch (err) {
       console.log(err);
       res.sendStatus(500)
     }
-
   })
+
+  router.delete("/track", (req, res) => {
+    try {
+      const tracksResult = [];
+      const albumId = req.body.albumId
+      const tracks = req.body.deleteSongs
+      tracks.forEach(track => {
+        tracksResult.push({ uri: `spotify:track:${track}` })
+      })
+      spotifyApi.removeTracksFromPlaylist(albumId, tracksResult)
+        .then(() => {
+          res.sendStatus(200)
+        })
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500)
+    }
+  })
+
 
   return router
 };
