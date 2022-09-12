@@ -49,6 +49,7 @@ module.exports = (pool) => {
   // grabs the info for the playlist id from db and sends it as response
   router.get("/:id", (req, res) => {
     const songResult = [];
+    let albumId = ""
     const playlistId = req.params.id;
     return pool
       .query(
@@ -58,6 +59,7 @@ module.exports = (pool) => {
         [playlistId]
       )
       .then((data) => {
+        albumId = (data.rows[0].spotify_id)
         return spotifyApi.getPlaylist(data.rows[0].spotify_id);
       })
       .then(({ body: { name, description, tracks, external_urls, images, owner } }) => {
@@ -70,6 +72,7 @@ module.exports = (pool) => {
             releaseDate: song.track.album.release_date,
             duration: duration,
             playCount: Math.floor(Math.random() * 400),
+            id: song.track.id
           });
         });
         const resultTracks = songResult.sort((a, b) => b.playCount - a.playCount);
@@ -79,6 +82,7 @@ module.exports = (pool) => {
           image: images[0]?.url,
           owner: owner.display_name,
           spotifyURL: external_urls.spotify,
+          albumId,
           tracks: resultTracks,
         });
       })
@@ -224,22 +228,6 @@ module.exports = (pool) => {
         });
       });
       res.send(playlist);
-    } catch (err) {
-      console.log(err);
-      res.sendStatus(500);
-    }
-  });
-
-  router.delete("/:id", async (req, res) => {
-    try {
-      const playlistId = req.params.id;
-      await pool.query(
-        `
-      DELETE FROM categories_playlists 
-      WHERE playlist_id = $1`,
-        [playlistId]
-      );
-      res.sendStatus(200);
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
