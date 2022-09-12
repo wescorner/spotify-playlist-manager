@@ -7,15 +7,17 @@ import {useParams, useNavigate} from "react-router-dom"
 import axios from "axios"
 import Navbar from "../Navbar/Navbar";
 import Header from "../Header/Header";
+import AddTracks from "../AddTracks/Addtracks";
 const Playlist = () => {
   const {id} = useParams()
   const navigate = useNavigate();
   const [playList, setPlayList] = useState({})
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     axios.get(`/playlist/${id}`)
       .then(({data: playlist}) => setPlayList(playlist));
-  }, [id])
+  }, [id, showAddModal])
 
   const tracks = playList.tracks?.map(
     (track, index) =>
@@ -43,6 +45,7 @@ const Playlist = () => {
           totalSongs={playList.tracks?.length}
           onPlay={() => window.open(playList.spotifyURL, '_blank').focus()}
           onDashboard={() => navigate(`/stats/${id}`)}
+          onAddClicked={() => setShowAddModal(true)}
         />
         <Table style={{overflowY: "auto"}}>
           <TrackHeading/>
@@ -51,6 +54,7 @@ const Playlist = () => {
           </tbody>
         </Table>
       </div>
+      <AddTracks show={showAddModal} playlistId={id} onHide={() => setShowAddModal(false)}/>
     </div>
   )
 }
