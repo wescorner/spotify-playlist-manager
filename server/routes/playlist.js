@@ -121,7 +121,7 @@ module.exports = (pool) => {
     try {
       const searchQuery = req.body.searchQuery;
       const types = ["track"];
-      const searchResult = await spotifyApi.search(searchQuery, types, { limit: 10 });
+      const searchResult = await spotifyApi.search(searchQuery, types, { limit: 8 });
 
       const tracks = [];
       searchResult.body.tracks.items.map((item) => {
@@ -193,7 +193,7 @@ module.exports = (pool) => {
 
   // Its a post route to add songs to an existing playlist
   // It receives playlist_id and track id in the body of the request
-  router.post("/:id", async (req, res) => {
+  router.post("/track", async (req, res) => {
     try {
       const playlistId = req.body.playlistId;
       const track = req.body.track;
@@ -204,7 +204,7 @@ module.exports = (pool) => {
         [playlistId]
       );
       const spotifyId = id.rows[0].spotify_id;
-      await spotifyApi.addTracksToPlaylist(spotifyId, track);
+      await spotifyApi.addTracksToPlaylist(spotifyId, [track]);
       const playlistData = await spotifyApi.getPlaylist(spotifyId);
       const playlistUpdatedData = [
         playlistData.body.images[0].url,
