@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.89a2e43c.css",
+    "main.js": "/static/js/main.afc07d3a.js",
+    "static/media/Spotify_Logo_CMYK_White.png": "/static/media/Spotify_Logo_CMYK_White.f48fb565509bf23854a8.png",
+    "index.html": "/index.html",
+    "main.89a2e43c.css.map": "/static/css/main.89a2e43c.css.map",
+    "main.afc07d3a.js.map": "/static/js/main.afc07d3a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.89a2e43c.css",
+    "static/js/main.afc07d3a.js"
+  ]
+}

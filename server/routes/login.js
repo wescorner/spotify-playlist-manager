@@ -27,7 +27,7 @@ module.exports = (pool) => {
 
   //Sets access token and refresh token after verification of spotify credentials
   router.get("/callback", async (req, res) => {
-    try{
+    try {
       const { code } = req.query;
       const profileInfo = [];
       const userPlaylists = [];
@@ -36,18 +36,22 @@ module.exports = (pool) => {
       const { access_token, refresh_token } = data.body;
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
-      const { body: { images, display_name, email, id } } = await spotifyApi.getMe();
+      const {
+        body: { images, display_name, email, id },
+      } = await spotifyApi.getMe();
       profileInfo.push(images[0].url, display_name, email.toLowerCase(), id);
-      const {rows: userRows} = await pool.query(`SELECT spotify_id FROM USERS`);
+      const { rows: userRows } = await pool.query(`SELECT spotify_id FROM USERS`);
       const userExists = userRows.some((user) => user.spotify_id === profileInfo[3]);
       if (!userExists) {
-        await  pool.query(
+        await pool.query(
           `INSERT INTO users (image, name, email, spotify_id) VALUES ($1, $2, $3, $4)`,
           profileInfo
         );
       }
 
-      const {body: {items: playlists}} = await spotifyApi.getUserPlaylists({ limit: 50 });
+      const {
+        body: { items: playlists },
+      } = await spotifyApi.getUserPlaylists({ limit: 50 });
       playlists.forEach((p) => {
         //p represents playlist item
         userPlaylists.push({
@@ -58,27 +62,27 @@ module.exports = (pool) => {
           owner: p.owner.display_name,
           tracks: { count: p.tracks.total, href: p.tracks.href },
         });
-      })
+      });
       await storePlaylists(userPlaylists);
-      return res.redirect("http://localhost:3000/dashboard")
-    }catch(err){
+      return res.redirect("/dashboard");
+    } catch (err) {
       console.log(err);
       res.sendStatus(500);
     }
-
-
   });
 
   router.get("/profile", (req, res) => {
-    spotifyApi.getMe().then(({ body: { images, display_name, email, id } }) => {
-      const profileInfo = [];
-      profileInfo.push(images[0].url, display_name, email.toLowerCase(), id);
-      res.send(profileInfo);
-    })
-    .catch((error) => {
-      console.log(error)
-      return res.sendStatus(500)
-    });
+    spotifyApi
+      .getMe()
+      .then(({ body: { images, display_name, email, id } }) => {
+        const profileInfo = [];
+        profileInfo.push(images[0].url, display_name, email.toLowerCase(), id);
+        res.send(profileInfo);
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.sendStatus(500);
+      });
   });
 
   return router;
