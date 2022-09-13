@@ -52,21 +52,32 @@ npm start
 ### Create a Category
 The home page is where you will view all your created categories, and on the sidebar there is a 'Create a Category' button which lets you create a new category with a given name, image, and description. This category will be displayed on your home page once you create it.
 
+<img src="https://github.com/wescorner/spotify-playlist-manager/blob/main/images/create-category.PNG?raw=true" alt="create-category" />
+
 ### Add Playlists to Category
 When clicking on a category, you will be taken to the category page. Here, you can edit/delete the category, and add playlists to the category. Clicking the '+' button will bring up a list of ALL playlists on your spotify account, where you can then choose which ones to add to the category. You may also delete playlists from a category once they are added.
 
+<img src="https://github.com/wescorner/spotify-playlist-manager/blob/main/images/add-playlists.PNG?raw=true" alt="add-playlists" />
+<img src="https://github.com/wescorner/spotify-playlist-manager/blob/main/images/playlists-added.PNG?raw=true" alt="playlists-added" />
+
 ### Create a Playlist
 Creating a new playlist is as simple as clicking the 'Create a Playlist' button on the sidebar, which lets you enter a playlist name and description to be created. The playlist image will be auto-created after you populate it with songs.
+
+<img src="https://github.com/wescorner/spotify-playlist-manager/blob/main/images/create-playlist.PNG?raw=true" alt="create-playlist" />
 
 ⚠️*Note: This action will create a playlist on your actual spotify account*⚠️
 
 ### Edit Existing Playlist
 Clicking on a playlist will bring you to the playlist page, where you can edit the playlist information, open the playlist in spotify to be played, or add songs to the playlist. Adding songs to the playlist is done by clicking the 'Add Songs' button, searching for a song you like, and clicking 'Add'.
 
+<img src="https://github.com/wescorner/spotify-playlist-manager/blob/main/images/playlist-info.PNG?raw=true" alt="edit-playlist" />
+
 ⚠️*Note: This action will edit playlists on your actual spotify account*⚠️
 
 ### View Playlist Stats
 Clicking the 'dashboard' button on a playlist's page will bring you to the playlist dashboard, where you can see statistics of your playlist such as most listened to song, number of plays, and all the songs sorted by number of plays.
+
+<img src="https://github.com/wescorner/spotify-playlist-manager/blob/main/images/playlist-dashboard.PNG?raw=true" alt="playlist-stats" />
 
 ### Remove songs from playlist that aren't in most listened to
 The big red button in the middle of the playlist dashboard will delete any songs off the playlist that aren't in your top 50 listened to songs, so that your playlists always stay fresh!
