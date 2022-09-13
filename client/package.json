@@ -2,7 +2,7 @@
   "name": "spotify-playlist-manager",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy": "https://playlist-manager-server.herokuapp.com",
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
@@ -17,7 +17,6 @@
     "dotenv": "^16.0.2",
     "eslint-config-prettier": "^8.5.0",
     "mdbreact": "^5.2.0",
-    "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-bootstrap-sidebar-menu": "^2.0.3",
@@ -25,6 +24,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "sass-loader": "^13.0.2",
     "spotify-web-api-js": "^1.5.2",
     "web-vitals": "^2.1.4"
   },
@@ -81,7 +81,7 @@
     "@storybook/testing-library": "^0.0.13",
     "babel-plugin-named-exports-order": "^0.0.2",
     "prop-types": "^15.8.1",
-    "sass": "^1.54.8",
+    "sass": "^1.54.9",
     "webpack": "^5.74.0"
   }
 }

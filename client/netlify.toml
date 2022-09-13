@@ -12,5 +12,5 @@
   command = "npm run build"
 
 [build.environment]
-  REACT_APP_API_BASE_URL = "https://lhl-spotify-playlist-manager.herokuapp.com/"
-  REACT_APP_WEBSOCKET_URL = "wss://lhl-spotify-playlist-manager.herokuapp.com/"
+  REACT_APP_API_BASE_URL = "https://playlist-manager-server.herokuapp.com/"
+  REACT_APP_WEBSOCKET_URL = "wss://playlist-manager-server.herokuapp.com/"

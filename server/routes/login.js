@@ -5,7 +5,6 @@ const router = express.Router();
 const querystring = require("querystring");
 require("dotenv").config();
 const { spotifyApi } = require("../app");
-const { collapseTextChangeRangesAcrossMultipleVersions } = require("typescript");
 const { storePlaylists } = require("../db/helper/playlists");
 
 module.exports = (pool) => {
@@ -64,7 +63,7 @@ module.exports = (pool) => {
         });
       });
       await storePlaylists(userPlaylists);
-      return res.redirect("/dashboard");
+      return res.redirect("https://cerulean-bonbon-1e410b.netlify.app/dashboard");
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
