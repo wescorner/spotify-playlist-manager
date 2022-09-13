@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --fix './**/*.js'",
     "format": "prettier --write .",
-    "start": "nodemon server app.js",
+    "start": "node server app.js",
     "db:reset": "node db/scripts/resetdb.js"
   },
   "keywords": [],
