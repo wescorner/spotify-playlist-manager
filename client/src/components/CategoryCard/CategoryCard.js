@@ -4,7 +4,6 @@ import "./CategoryCard.scss";
 export default function CategoryCard({ image, description, title, totalPlaylists, onClick }) {
   return (
     <Card className="categoryCard" onClick={onClick}>
-      {/* <Card.Img className="category-card-img" variant="top" src={image} /> */}
       <Card.Body>
         <img className="category-card-img" src={image} alt="icon" />
         <Card.Title>{title}</Card.Title>
@@ -13,7 +12,7 @@ export default function CategoryCard({ image, description, title, totalPlaylists
         </Card.Text>
         <hr />
         <Card.Text>
-          {totalPlaylists} {totalPlaylists > 1 ? "Playlists" : "Playlist"}
+          {totalPlaylists} {totalPlaylists === 1 ? "Playlist" : "Playlists"}
         </Card.Text>
       </Card.Body>
     </Card>

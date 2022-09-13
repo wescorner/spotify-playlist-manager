@@ -35,10 +35,10 @@ module.exports = (pool) => {
       const {
         body: { id },
       } = await spotifyApi.getMe();
-      const data = await pool.query(`SELECT id FROM users WHERE spotify_id = $1`, [id])
-      const userId = data.rows[0].id
-      const playlists = await getUserPlaylists(userId)
-      res.send(playlists)
+      const data = await pool.query(`SELECT id FROM users WHERE spotify_id = $1`, [id]);
+      const userId = data.rows[0].id;
+      const playlists = await getUserPlaylists(userId);
+      res.send(playlists);
     } catch (err) {
       console.log(err);
       return res.sendStatus(500);
@@ -49,7 +49,7 @@ module.exports = (pool) => {
   // grabs the info for the playlist id from db and sends it as response
   router.get("/:id", (req, res) => {
     const songResult = [];
-    let albumId = ""
+    let albumId = "";
     const playlistId = req.params.id;
     return pool
       .query(
@@ -59,7 +59,7 @@ module.exports = (pool) => {
         [playlistId]
       )
       .then((data) => {
-        albumId = (data.rows[0].spotify_id)
+        albumId = data.rows[0].spotify_id;
         return spotifyApi.getPlaylist(data.rows[0].spotify_id);
       })
       .then(({ body: { name, description, tracks, external_urls, images, owner } }) => {
@@ -72,7 +72,7 @@ module.exports = (pool) => {
             releaseDate: song.track.album.release_date,
             duration: duration,
             playCount: Math.floor(Math.random() * 400),
-            id: song.track.id
+            id: song.track.id,
           });
         });
         const resultTracks = songResult.sort((a, b) => b.playCount - a.playCount);
@@ -135,7 +135,7 @@ module.exports = (pool) => {
 
         tracks.push(track);
       });
-      res.send(tracks);
+      res.json(tracks);
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
