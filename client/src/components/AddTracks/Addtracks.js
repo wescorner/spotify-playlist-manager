@@ -3,11 +3,11 @@ import Search from "../Search/Search";
 import Tracks from "../Tracks/Tracks";
 import { Modal, Table } from "react-bootstrap";
 
-export default function AddTracks({show, onHide, playlistId}) {
-  const [tracks, setTracks] = useState([])
+export default function AddTracks({ show, onHide, playlistId }) {
+  const [tracks, setTracks] = useState([]);
 
   const onSearch = (search) => {
-    fetch("/playlist/search", {
+    fetch("https://playlist-manager-server.herokuapp.com/playlist/search", {
       method: "POST",
       body: JSON.stringify({
         searchQuery: search,
@@ -16,40 +16,40 @@ export default function AddTracks({show, onHide, playlistId}) {
         "content-type": "application/json",
       },
     })
-    .then((res) => {
-      return res.json()
-    })
-    .then((data) => {
-      setTracks(data)
-    })
-  }
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setTracks(data);
+      });
+  };
 
   const onAdd = (track) => {
-    fetch("/playlist/track",{
+    fetch("https://playlist-manager-server.herokuapp.com/playlist/track", {
       method: "POST",
       body: JSON.stringify({
         playlistId,
-        track
+        track,
       }),
       headers: {
         "content-type": "application/json",
       },
-    })
-  }
+    });
+  };
 
   const showSearchResult = tracks.map((track, index) => {
     return (
-      <Tracks 
-        key={index} 
-        image={track.image} 
-        name={track.name} 
-        album={track.artist} 
+      <Tracks
+        key={index}
+        image={track.image}
+        name={track.name}
+        album={track.artist}
         showAdd={true}
         url={track.uri}
         onAdd={onAdd}
       />
-    )
-  })
+    );
+  });
 
   return (
     <Modal show={show} onHide={onHide} fullscreen={true} centered>
@@ -57,19 +57,11 @@ export default function AddTracks({show, onHide, playlistId}) {
         <h3>Add Tracks</h3>
       </Modal.Header>
       <Modal.Body>
-        <Search onSearch={onSearch}/>
-        <Table style={{overflowY: "true", color: "white"}}>
-          <tbody>
-            {showSearchResult}
-          </tbody>
+        <Search onSearch={onSearch} />
+        <Table style={{ overflowY: "true", color: "white" }}>
+          <tbody>{showSearchResult}</tbody>
         </Table>
       </Modal.Body>
     </Modal>
-    
-    
-
-  )
-
-
-
+  );
 }

@@ -63,7 +63,7 @@ module.exports = (pool) => {
         });
       });
       await storePlaylists(userPlaylists);
-      return res.redirect("https://cerulean-bonbon-1e410b.netlify.app/dashboard");
+      return res.redirect("https://www.spotifyplaylistmanager.com/dashboard");
     } catch (err) {
       console.log(err);
       res.sendStatus(500);

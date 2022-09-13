@@ -141,7 +141,15 @@ export default function Stats() {
         <div className="statsHeader">
           <div>
             <h1 className="playlistTitle">{playlistInfo[1]}</h1>
-            <img id="playlistImage" src={playlistInfo[2]} alt="playlistImage" />
+            <img
+              id="playlistImage"
+              src={
+                playlistInfo[2]
+                  ? playlistInfo[2]
+                  : "https://community.spotify.com/t5/image/serverpage/image-id/55829iC2AD64ADB887E2A5/image-size/large?v=v2&px=999"
+              }
+              alt="playlistImage"
+            />
           </div>
           <div className="flexColumn">
             <p>
