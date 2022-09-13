@@ -4,6 +4,6 @@ CREATE TABLE users(
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   spotify_id VARCHAR(255) NOT NULL,
-  image VARCHAR(255) NOT NULL,
+  image VARCHAR(255),
   email VARCHAR(255) NOT NULL
 );
