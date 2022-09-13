@@ -6,11 +6,15 @@
 <p align="center">Welcome to Spotify Playlist Manager! The all-in-one application to help you <b>manage</b>, <b>categorize</b>, and <b>improve</b> your spotify playlists! You can create categories, add new playlists, edit your existing playlists, and even automatically update your playlists to remove unlistened to songs!</p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="react" />
-<img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" alt="express" />
-<img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgres" />
-<img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="node" />
-<img src="https://img.shields.io/badge/Spotify-1ED760?style=for-the-badge&logo=spotify&logoColor=white" alt="spotify" />
+  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="react" />
+  <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" alt="express" />
+  <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgres" />
+  <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="node" />
+  <img src="https://img.shields.io/badge/Spotify-1ED760?style=for-the-badge&logo=spotify&logoColor=white" alt="spotify" />
+</p>
+<p align="center">
+  <img src="https://api.netlify.com/api/v1/badges/8f554ee4-2f80-476b-89ed-a329f19f5bd0/deploy-status" alt="netlify-status" />
+  <img src="https://heroku-badge.herokuapp.com/?app=playlist-manager-server&root=dashboard" alt="heroku-status" />
 </p>
 
 ## ⚡️Quickstart
