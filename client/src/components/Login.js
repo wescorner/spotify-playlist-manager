@@ -8,7 +8,11 @@ export default function Login({ setLoggingIn }) {
     <Container className="d-flex flex-column align-items-md-center min-vh-100 min-vw-100 bg-black">
       <img src={spotifyLogo} alt="SpotifyLogo" />
       <h1 className="title">Playlist Manager</h1>
-      <a className="login" href="/login" onClick={setLoggingIn}>
+      <a
+        className="login"
+        href="https://lhl-spotify-playlist-manager.herokuapp.com/login"
+        onClick={setLoggingIn}
+      >
         {" "}
         Log in With Spotify
       </a>
