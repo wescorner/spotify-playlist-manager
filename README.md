@@ -14,7 +14,7 @@
 </p>
 <p align="center">
   <img src="https://api.netlify.com/api/v1/badges/8f554ee4-2f80-476b-89ed-a329f19f5bd0/deploy-status" alt="netlify-status" />
-  <img src="https://heroku-badge.herokuapp.com/?app=playlist-manager-server&root=dashboard" alt="heroku-status" />
+  <img src="https://heroku-badge.herokuapp.com/?app=playlist-manager-server&root=login" alt="heroku-status" />
 </p>
 
 ## ⚡️Quickstart
@@ -34,6 +34,19 @@ Initialize the Postgres database
 npm run db:reset
 ```
 
+Create a .env file with the following:
+```
+REDIRECT_URI={EXPRESS SERVER URL}/login/callback
+CLIENT_ID={YOUR SPOTIFY CLIENT ID}
+CLIENT_SECRET={YOUR SPOTIFY CLIENT SECRET}
+DB_HOST={YOUR DB HOST}
+DB_USER={YOUR DB USERNAME}
+DB_PASS={YOUR DB PASSWORD}
+DB_DATABASE={YOUR DB NAME}
+DB_PORT={YOUR DB PORT}
+REACT_APP_FRONTEND={REACT SERVER URL}
+```
+
 Start the development server
 ```
 npm start
@@ -44,6 +57,11 @@ npm start
 Enter the 'client' folder and install dependencies
 ```
 npm install
+```
+
+Create a .env file with the following:
+```
+REACT_APP_BACKEND={EXPRESS SERVER URL}
 ```
 
 Start the react application
