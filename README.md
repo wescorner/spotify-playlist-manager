@@ -14,7 +14,7 @@
 </p>
 <p align="center">
   <img src="https://api.netlify.com/api/v1/badges/8f554ee4-2f80-476b-89ed-a329f19f5bd0/deploy-status" alt="netlify-status" />
-  <img src="https://heroku-badge.herokuapp.com/?app=playlist-manager-server&root=dashboard" alt="heroku-status" />
+  <img src="https://heroku-badge.herokuapp.com/?app=playlist-manager-server&root=login" alt="heroku-status" />
 </p>
 
 ## ⚡️Quickstart
