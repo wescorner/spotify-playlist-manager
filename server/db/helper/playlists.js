@@ -13,9 +13,8 @@ const getUserPlaylists = (userId) => {
     })
 }
 
-const storePlaylists = (playlists) => {
+const storePlaylists = (playlists, userId) => {
 
-  const userId = 1
   getUserPlaylists(userId)
     .then((data) => {
 

@@ -30,7 +30,7 @@ export default function Header() {
       <button id="profileButton">
         <img
           id="userPhoto"
-          src={profileInfo[0]}
+          src={profileInfo[0] || "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}
           alt="profile"
         />
         <span id="username">{profileInfo[1]}</span>

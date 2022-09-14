@@ -38,7 +38,7 @@ module.exports = (pool) => {
       const {
         body: { images, display_name, email, id },
       } = await spotifyApi.getMe();
-      profileInfo.push(images[0].url, display_name, email.toLowerCase(), id);
+      profileInfo.push(images[0]?.url, display_name, email.toLowerCase(), id);
       const { rows: userRows } = await pool.query(`SELECT spotify_id FROM USERS`);
       const userExists = userRows.some((user) => user.spotify_id === profileInfo[3]);
       if (!userExists) {
@@ -62,7 +62,9 @@ module.exports = (pool) => {
           tracks: { count: p.tracks.total, href: p.tracks.href },
         });
       });
-      await storePlaylists(userPlaylists);
+      const userData = await pool.query(`SELECT id FROM users WHERE spotify_id = $1`, [id])
+      const userId = userData.rows[0].id
+      await storePlaylists(userPlaylists, userId);
       return res.redirect("https://www.spotifyplaylistmanager.com/dashboard");
     } catch (err) {
       console.log(err);
@@ -75,7 +77,7 @@ module.exports = (pool) => {
       .getMe()
       .then(({ body: { images, display_name, email, id } }) => {
         const profileInfo = [];
-        profileInfo.push(images[0].url, display_name, email.toLowerCase(), id);
+        profileInfo.push(images[0]?.url, display_name, email.toLowerCase(), id);
         res.send(profileInfo);
       })
       .catch((error) => {
