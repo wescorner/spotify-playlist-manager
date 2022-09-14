@@ -62,10 +62,10 @@ module.exports = (pool) => {
           tracks: { count: p.tracks.total, href: p.tracks.href },
         });
       });
-      const userData = await pool.query(`SELECT id FROM users WHERE spotify_id = $1`, [id])
-      const userId = userData.rows[0].id
+      const userData = await pool.query(`SELECT id FROM users WHERE spotify_id = $1`, [id]);
+      const userId = userData.rows[0].id;
       await storePlaylists(userPlaylists, userId);
-      return res.redirect("https://www.spotifyplaylistmanager.com/dashboard");
+      return res.redirect(`${process.env.REACT_APP_FRONTEND}/dashboard`);
     } catch (err) {
       console.log(err);
       res.sendStatus(500);

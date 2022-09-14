@@ -23,7 +23,7 @@ function App() {
 
   const onLoad = () => {
     axios
-      .get("/login/profile")
+      .get(`${process.env.REACT_APP_BACKEND}/login/profile`)
       .then(() => setLoggedIn(true))
       .catch(() => setLoggedIn(false));
   };

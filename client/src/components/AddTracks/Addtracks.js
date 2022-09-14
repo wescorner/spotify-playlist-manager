@@ -7,7 +7,7 @@ export default function AddTracks({ show, onHide, playlistId }) {
   const [tracks, setTracks] = useState([]);
 
   const onSearch = (search) => {
-    fetch("https://playlist-manager-server.herokuapp.com/playlist/search", {
+    fetch(`${process.env.REACT_APP_BACKEND}/playlist/search`, {
       method: "POST",
       body: JSON.stringify({
         searchQuery: search,
@@ -25,7 +25,7 @@ export default function AddTracks({ show, onHide, playlistId }) {
   };
 
   const onAdd = (track) => {
-    fetch("https://playlist-manager-server.herokuapp.com/playlist/track", {
+    fetch(`${process.env.REACT_APP_BACKEND}/playlist/track`, {
       method: "POST",
       body: JSON.stringify({
         playlistId,
